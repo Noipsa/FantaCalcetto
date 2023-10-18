@@ -21,7 +21,7 @@ export class FormationComponent implements OnInit{
   listGiocatori: any;
 
   titoloModale: String | undefined;
-
+  stronzo:String = 'ciao'
   
 
   constructor(
