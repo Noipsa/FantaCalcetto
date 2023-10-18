@@ -1,0 +1,43 @@
+<div [ngStyle]="{'opacity': showLoader ? 0.5 : 1,
+                 'user-select': showLoader ? 'none' : null, 
+                 'pointer-events': showLoader ? 'none' : null}" class="container w-100 h-100 z-2">
+    <div class="spinner-border position-absolute top-50 z-1" style="left: 45%;" role="status" *ngIf="showLoader">
+        <span></span>
+    </div>
+    <router-outlet></router-outlet>
+</div>
+
+
+
+<nav class="navbar fixed-bottom navbar-dark bg-dark  m-3" style="height: 7%;" *ngIf="showMenu">
+    <ul class="container-fluid nav">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/matchs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white"
+                    class="bi bi-calendar-event" viewBox="0 0 16 16">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                    <path
+                        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                </svg>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/market">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-cart-fill"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/formation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-cone-striped"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9c-1.14 0-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.12zm-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4c.618 0 1.2-.036 1.725-.098zm4.396 8.613a.5.5 0 0 1 .037.96l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.96l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257 2.391.598z" />
+                </svg>
+            </a>
+        </li>
+    </ul>
+</nav>

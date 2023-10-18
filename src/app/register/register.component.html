@@ -1,0 +1,25 @@
+<div class="container position-absolute top-50 start-0 translate-middle-y">
+    <form [formGroup]="profileForm" (submit)="registrazione()">
+        <div class="form-floating mb-3">
+            <input type="email" [email]="true" class="form-control" formControlName="email" placeholder="name@example.com" required>
+            <label for="floatingInput">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" formControlName="password" placeholder="Password" required>
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" formControlName="nome_squadra" placeholder="Naples" required>
+            <label for="floatingNameSquadra">Nome Squadra</label>
+        </div>
+        <button type="submit" class="btn btn-dark w-100 mb-3">Registrati</button>
+    </form>
+</div>
+
+<div class="m-3 alert alert-danger" role="alert" *ngIf="hiddenError">
+    {{errorMessage}}
+</div>
+
+<div class="m-3 alert alert-success" role="alert" *ngIf="hiddenSuccess">
+    Registrato con Successo
+</div>

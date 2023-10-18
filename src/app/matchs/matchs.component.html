@@ -1,0 +1,15 @@
+<ul class="list-group list-group-flush mt-3" *ngIf="matchsList.length > 0;else nothing">
+    <li class="list-group-item mt-4" *ngFor="let match of matchsList">
+        <p class="text-center" style="margin: none !important; padding: none !important;">Giornata {{match?.numero_giornata}}</p>
+        <h1 class="text-center">{{match?.prima_squadra?.nome_squadra}} 
+                                    {{match?.risultato_prima_squadra != -1 ? match?.risultato_prima_squadra : null}}
+                                    VS
+                                    {{match?.risultato_seconda_squadra != -1 ? match?.risultato_seconda_squadra : null}}
+                                    {{match?.seconda_squadra?.nome_squadra}}</h1>
+        <p class="text-center">{{match?.data_partita | date: 'dd/MM/yyyy'}}</p>
+    </li>
+</ul>
+
+<ng-template class="container w-100" #nothing>
+    <h1 class="text-center mt-3">Nessuna Partita</h1>
+</ng-template>

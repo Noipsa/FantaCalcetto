@@ -1,0 +1,27 @@
+<div class="container text-center position-relative fs-1" style="margin-top: 40%;">
+    FantaCalcetto
+</div>
+<div class="container position-absolute top-50 start-0 translate-middle-y">
+    <form [formGroup]="profileForm" (submit)="login()">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" formControlName="email" placeholder="name@example.com">
+            <label for="floatingInput">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" formControlName="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <button type="submit" class="btn btn-dark w-100 mb-3">Accedi</button>
+    </form>
+    <div class="container text-center">
+        <a class="text-center text-decoration-none" routerLink="/register">registrati</a>
+    </div>
+</div>
+
+<div class="m-3 alert alert-danger" role="alert" *ngIf="hiddenError">
+    {{errorMessage}}
+</div>
+
+<div class="m-3 alert alert-success" role="alert" *ngIf="hiddenSuccess">
+    Loggato con Successo
+</div>
