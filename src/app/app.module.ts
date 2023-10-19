@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatchsComponent } from './matchs/matchs.component';
 import { FormationComponent } from './formation/formation.component';
 import { MarketComponent } from './market/market.component';
+import { MatchOfDayComponent } from './match-of-day/match-of-day.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'matchs', component: MatchsComponent},
   { path: 'market', component: MarketComponent},
   { path: 'formation', component: FormationComponent},
+  { path: 'matchofday', component: MatchOfDayComponent}
 ];
 
 
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     MatchsComponent,
     FormationComponent,
-    MarketComponent
+    MarketComponent,
+    MatchOfDayComponent
   ],
   providers: [],
   bootstrap: [HomeComponent]

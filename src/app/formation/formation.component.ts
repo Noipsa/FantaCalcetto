@@ -4,6 +4,7 @@ import { Subscription, catchError, forkJoin, of, switchMap } from 'rxjs';
 import { FormationService } from './service/formation.service';
 import { MemoryLoginService } from '../home/service/memory-login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TitolariService } from './service/titolari.service';
 
 @Component({
   selector: 'formation',
@@ -15,50 +16,73 @@ export class FormationComponent implements OnInit{
   formazioni: any = {};
   formazione_titolare: any = {};
   formazioneSelected: any;
+  userFormation: any;
 
   giocatoreSelected: any;
 
   listGiocatori: any;
 
   titoloModale: String | undefined;
-  stronzo:String = 'ciao'
   
+  portieri: any;
+  difensori: any;
+  attaccanti: any;
+  giocatoriPosseduti: any;
 
   constructor(
     public loaderService: LoaderService,
     public formationService: FormationService,
     public memoryLoginService: MemoryLoginService,
+    public titolariService: TitolariService,
     private modalService: NgbModal
   ) { }
   
 
   ngOnInit(): void {
     this.loaderService.setShow(true);
-    /*switchMap(() => forkJoin({
-      formationResponse: this.formationService.getAllFormazioni().pipe(catchError(() => of(undefined)))
-    }))*/
-    this.formationService.getAllFormazioni().subscribe(
+    forkJoin({
+      formazioni: this.formationService.getAllFormazioni(),
+      utente: this.memoryLoginService.getUtenteAggiornato(),
+      giocatori: this.formationService.getGiocatoriPosseduti(this.memoryLoginService.getUtente().id_utente)
+    }).subscribe(
       (res) => { 
-        this.loaderService.setShow(false);
         if(res) {
-          this.formazioni = res;
+          this.userFormation = res.utente.squadra.id_formazione;
+          this.formazioni = res.formazioni;
+
+          this.giocatoriPosseduti = res.giocatori;
+
+          if (this.userFormation != null) {
+            this.formazioni.forEach((form: any) => {
+              if (form.id_formazione === this.userFormation) {
+                this.formazioneSelected = form;
+                this.onChangeFormation();
+              }
+            })
+          }
+          
         }
       },
       (err: Error) => { 
           this.loaderService.setShow(false) 
       },
-      () => { this.loaderService.setShow(false) }
+      () => { }
     )
   }
 
   onChangeFormation() {
     this.loaderService.setShow(true);
+    let utente = this.memoryLoginService.getUtente()
     if (this.formazioneSelected) {
-      this.formationService.aggiornaFormazione(this.formazioneSelected, this.memoryLoginService.getUtente()).subscribe(
+      this.formationService.aggiornaFormazione(this.formazioneSelected, utente).subscribe(
         (res: any) => { 
           this.loaderService.setShow(false);
           if(res) {
             this.formazione_titolare = res;
+            this.attaccanti = this.formazione_titolare.attaccanti;
+            this.difensori = this.formazione_titolare.difensori;
+            this.portieri = this.formazione_titolare.portieri;
+            this.richiamaFormazioneTitolare(utente.id_utente);
           }
         },
         (err: Error) => { 
@@ -77,12 +101,10 @@ export class FormationComponent implements OnInit{
         this.listGiocatori = giocatori;
         this.titoloModale = this.getTitolo(type);
         this.modalService.open(content).result.then(
-          (result) => {
-            console.log(`Closed with: ${result}`);
+          () => {
+            this.salvaGiocatoreTitolare(this.giocatoreSelected, this.memoryLoginService.getUtente());
           },
-          (reason) => {
-            console.log("2233");
-          },
+          () => { },
         );
       },
       (err: Error) => { 
@@ -103,4 +125,33 @@ export class FormationComponent implements OnInit{
       return "";
     }
 	}
+
+  salvaGiocatoreTitolare(giocatoreSelected: any, utente: any) {
+    this.loaderService.setShow(true);
+    this.titolariService.aggiornaTitolari(giocatoreSelected, utente).subscribe(
+      () => { 
+        this.richiamaFormazioneTitolare(utente.id_utente);
+      },
+      (err: Error) => { this.loaderService.setShow(false) ;
+      },
+      () => { this.loaderService.setShow(false) }
+    )
+  }
+
+  richiamaFormazioneTitolare(id: number) {
+    this.loaderService.setShow(true);
+    this.titolariService.getTitolari(id).subscribe(
+      (res: any) => { 
+        this.formazione_titolare = res;
+        this.attaccanti = this.formazione_titolare.attaccanti;
+        this.difensori = this.formazione_titolare.difensori;
+        this.portieri = this.formazione_titolare.portieri;
+      },
+      (err: Error) => { this.loaderService.setShow(false) ;
+      },
+      () => { this.loaderService.setShow(false) }
+    )
+  }
+  
 }
+

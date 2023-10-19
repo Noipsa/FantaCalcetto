@@ -30,4 +30,8 @@ export class FormationService {
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/getGiocatori", request);
   }
+
+  getGiocatoriPosseduti(id: number) {
+    return this.http.get(environment.apiUrl + this.endpoint + "/getGiocatoriPosseduti/" + id);
+  }
 }

@@ -28,7 +28,7 @@ export class MarketComponent implements OnInit{
     }).subscribe(
     (res) => { 
       if(res) {
-        this.giocatoriAttualiSquadra = res.utente.id_squadra.giocatori_acquistati;
+        this.giocatoriAttualiSquadra = res.utente.squadra.giocatori_acquistati;
         this.giocatori = res.giocatori;
       }
       this.loaderService.setShow(false);
@@ -69,11 +69,11 @@ export class MarketComponent implements OnInit{
     let found = false
     if(this.giocatoriAttualiSquadra) {
       this.giocatoriAttualiSquadra.forEach((giocatore: any) => {
-        if(giocatore.id_giocatore ===   giocatore_id) {
+        if(giocatore.id_giocatore === giocatore_id) {
           found = true;
         }
       });
-    } 
+    }
     return found;
   }
 }

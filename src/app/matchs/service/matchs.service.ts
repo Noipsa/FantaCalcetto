@@ -13,4 +13,8 @@ export class MatchsService {
   getAllMatchs() {
     return this.http.get(environment.apiUrl + this.endpoint + "/all");
   }
+
+  getAllGiocatoriPartita(id : number) {
+    return this.http.get(environment.apiUrl + this.endpoint + "/giocatoriPartita/" + id);
+  }
 }

@@ -1,23 +1,25 @@
 <div class="input-group mb-3 mt-3">
-    <select class="form-select" (change)="onChangeFormation()" [(ngModel)]="formazioneSelected" [value]="">
+    <select class="form-select" (change)="onChangeFormation()" [(ngModel)]="formazioneSelected">
         <option *ngFor="let formazione of formazioni" [ngValue]="formazione">
             1-{{formazione.numero_difensori}}-{{formazione.numero_attaccanti}}</option>
     </select>
 </div>
 
 <ul class="list-group" *ngIf="formazioneSelected">
-    <li class="list-group-item" *ngIf="formazione_titolare.portiere; else scegliportiere">
-        <h5 class="text-warning">
-            <h5 class="text-danger">Portiere</h5> {{formazione_titolare.portiere.nome}}
-        </h5>
-    </li>
+    <div *ngFor="let portiere of portieri">
+        <li class="list-group-item" *ngIf="portiere.id_giocatore != 0; else scegliportiere">
+            <h5>
+                <h5 class="text-warning">Portiere</h5> {{portiere.nome}}
+            </h5>
+        </li>
+    </div>
     <ng-template class="list-group-item" #scegliportiere>
-        <button type="button" class="btn btn-warning" (click)="open(content, 1)">Scegli Portiere</button>
+        <button type="button" class="btn btn-warning mb-3 w-100" (click)="open(content, 1)">Scegli Portiere</button>
     </ng-template>
     <br>
 
-    <div *ngFor="let difensore of formazione_titolare.difensori">
-        <li class="list-group-item mb-3 align-middle" *ngIf="difensore.nome; else sceglidifensore">
+    <div *ngFor="let difensore of difensori">
+        <li class="list-group-item mb-3 align-middle" *ngIf="difensore.id_giocatore != 0; else sceglidifensore">
             <h5>
                 <h5 class="text-success">Difensore</h5> {{difensore.nome}}
             </h5>
@@ -29,9 +31,9 @@
 
     <br>
 
-    <div *ngFor="let attaccante of formazione_titolare.attaccanti">
-        <li class="list-group-item mb-3" *ngIf="attaccante.nome; else scegliattaccante">
-            <h5 class="text-danger">
+    <div *ngFor="let attaccante of attaccanti">
+        <li class="list-group-item mb-3" *ngIf="attaccante.id_giocatore != 0; else scegliattaccante">
+            <h5>
                 <h5 class="text-danger">Attaccante</h5> {{attaccante.nome}}
             </h5>
 
@@ -41,24 +43,42 @@
         <button type="button" class="btn btn-danger mb-3 w-100" (click)="open(content, 3)">Scegli Attaccante</button>
     </ng-template>
 </ul>
-    
-    <ng-template #content let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Scegli {{titoloModale}}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="input-group mb-3 mt-3">
-                    <select class="form-select" [(ngModel)]="giocatoreSelected">
-                        <option selected></option>
-                        <option *ngFor="let giocatore of listGiocatori">{{giocatore.nome}}</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark w-100" (click)="modal.close('Save click')">Save</button>
-        </div>
-    </ng-template>
-    
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Scegli {{titoloModale}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="input-group mb-3 mt-3">
+                <select class="form-select" [(ngModel)]="giocatoreSelected" [ngModelOptions]="{standalone: true}">
+                    <option></option>
+                    <option *ngFor="let giocatore of listGiocatori" [ngValue]="giocatore">{{giocatore.nome}}</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark w-100" (click)="modal.close()">Save</button>
+    </div>
+</ng-template>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Giocatore</th>
+            <th scope="col">Ruolo</th>
+            <th scope="col">Infortunato</th>
+            <th scope="col">Espulso</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="giocatoriPosseduti">
+        <tr *ngFor="let giocatore of giocatoriPosseduti" class="align-middle">
+            <td>{{giocatore?.nome}}</td>
+            <td>{{giocatore?.eruolo}}</td>
+            <td>{{giocatore?.binfortunato ? 'SI' : 'NO'}}</td>
+            <td>{{giocatore?.bsqualificato  ? 'SI' : 'NO'}}</td>
+        </tr>
+    </tbody>
+</table>
