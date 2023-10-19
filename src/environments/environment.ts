@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080',
+  production: true,
+  apiUrl: '18.130.249.33:8080/',
   apiKey: "AIzaSyCJdvK2z5E0IKdfQxIC_EgXrf-FJ9_qzvA",
   authDomain: "fantacalcetto-7f4c0.firebaseapp.com",
   projectId: "fantacalcetto-7f4c0",
