@@ -1,5 +1,6 @@
 export const environment = {
-  apiUrl: 'https://fantabe-402600.uc.r.appspot.com',
+  //apiUrl: 'https://fantabe-402600.uc.r.appspot.com',
+  apiUrl: 'http://localhost:8080',
   apiKey: "AIzaSyCWABTNFWvxWIHj6j8D94Nbmr4CZcJTqU4",
   authDomain: "fantacalcettoprod.firebaseapp.com",
   projectId: "fantacalcettoprod",

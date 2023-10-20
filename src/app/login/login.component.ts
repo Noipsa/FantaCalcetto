@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit{
           this.hiddenSuccess = true;
           setTimeout( () => { this.hiddenSuccess = false }, 1500 );
           this.loaderService.setShow(false);
+          localStorage.setItem('email', utente.email!);
+          localStorage.setItem('password', utente.password!);
           this.router.navigate(['matchs']);
         },
         (err: Error) => { 

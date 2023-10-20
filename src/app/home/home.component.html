@@ -1,4 +1,13 @@
-<nav class="navbar navbar-dark bg-dark  m-3" style="height: 7%;" *ngIf="showMenu">
+<div [ngStyle]="{'opacity': showLoader ? 0.5 : 1,
+                 'user-select': showLoader ? 'none' : null, 
+                 'pointer-events': showLoader ? 'none' : null}" class="container w-100 h-100 z-2">
+    <div class="spinner-border position-absolute top-50 z-1" style="left: 45%;" role="status" *ngIf="showLoader">
+        <span></span>
+    </div>
+    <router-outlet></router-outlet>
+</div>
+
+<nav class="navbar navbar-dark bg-dark fixed-bottom" style="height: 7%;" *ngIf="showMenu">
     <ul class="container-fluid nav">
         <li class="nav-item">
             <a class="nav-link" routerLink="/matchs">
@@ -41,12 +50,3 @@
         </li>
     </ul>
 </nav>
-
-<div [ngStyle]="{'opacity': showLoader ? 0.5 : 1,
-                 'user-select': showLoader ? 'none' : null, 
-                 'pointer-events': showLoader ? 'none' : null}" class="container w-100 h-100 z-2">
-    <div class="spinner-border position-absolute top-50 z-1" style="left: 45%;" role="status" *ngIf="showLoader">
-        <span></span>
-    </div>
-    <router-outlet></router-outlet>
-</div>
