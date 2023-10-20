@@ -88,7 +88,7 @@ export class FormationComponent implements OnInit{
         (err: Error) => { 
           this.loaderService.setShow(false) ;
         },
-        () => { this.loaderService.setShow(false) }
+        () => {  }
       )
     }
   }
@@ -102,6 +102,7 @@ export class FormationComponent implements OnInit{
         this.titoloModale = this.getTitolo(type);
         this.modalService.open(content).result.then(
           () => {
+            this.loaderService.setShow(false)
             this.salvaGiocatoreTitolare(this.giocatoreSelected, this.memoryLoginService.getUtente());
           },
           () => { },
@@ -110,7 +111,7 @@ export class FormationComponent implements OnInit{
       (err: Error) => { 
         this.loaderService.setShow(false) ;
       },
-      () => { this.loaderService.setShow(false) }
+      () => {  }
     )
 	}
 
@@ -130,11 +131,12 @@ export class FormationComponent implements OnInit{
     this.loaderService.setShow(true);
     this.titolariService.aggiornaTitolari(giocatoreSelected, utente).subscribe(
       () => { 
+        this.loaderService.setShow(false)
         this.richiamaFormazioneTitolare(utente.id_utente);
       },
       (err: Error) => { this.loaderService.setShow(false) ;
       },
-      () => { this.loaderService.setShow(false) }
+      () => {  }
     )
   }
 
@@ -142,6 +144,7 @@ export class FormationComponent implements OnInit{
     this.loaderService.setShow(true);
     this.titolariService.getTitolari(id).subscribe(
       (res: any) => { 
+        this.loaderService.setShow(false)
         this.formazione_titolare = res;
         this.attaccanti = this.formazione_titolare.attaccanti;
         this.difensori = this.formazione_titolare.difensori;
@@ -149,7 +152,7 @@ export class FormationComponent implements OnInit{
       },
       (err: Error) => { this.loaderService.setShow(false) ;
       },
-      () => { this.loaderService.setShow(false) }
+      () => {  }
     )
   }
   
