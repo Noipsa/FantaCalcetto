@@ -7,7 +7,9 @@
     <router-outlet ></router-outlet>
 </div>
 
-<nav class="navbar navbar-dark bg-dark fixed-bottom" style="height: 7%;" *ngIf="showMenu && !adminMenu">
+
+<div class="fixed-bottom">
+<nav class="navbar navbar-dark bg-dark sticky-bottom" style="height: 7%;" *ngIf="showMenu && !adminMenu">
     <ul class="container-fluid nav">
         <li class="nav-item">
             <a class="nav-link" routerLink="/matchs">
@@ -59,3 +61,4 @@
         </li>
     </ul>
 </nav>
+</div>
