@@ -32,7 +32,5 @@ export class HomeComponent implements OnInit{
         this.showLoader = show;
       }
     );
-
-    this.router.navigate(['/login']);
   }
 }
