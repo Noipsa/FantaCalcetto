@@ -18,6 +18,8 @@ export class MatchOfDayComponent implements OnInit{
   difensori: any;
   attaccanti: any;
 
+  riserve: any;
+
   constructor(
     public loaderService: LoaderService,
     public formationService: FormationService,
@@ -38,7 +40,7 @@ export class MatchOfDayComponent implements OnInit{
         this.attaccanti = titolari.attaccanti;
         this.difensori = titolari.difensori;
         this.portieri = titolari.portieri;
-
+        this.riserve = res.riserve;
         
       },
       (err: Error) => { this.loaderService.setShow(false) ;

@@ -37,25 +37,11 @@
             <th scope="col">Valutazione</th>
         </tr>
     </thead>
-    <tbody *ngIf="portieri">
-        <tr *ngFor="let giocatore of portieri" class="align-middle table-warning" [ngClass]="{'table-success': giocatore?.valutazione > 6, 'table-danger': giocatore?.valutazione < 6}">
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
-        </tr>
-    </tbody>
-    <tbody *ngIf="difensori">
-        <tr *ngFor="let giocatore of difensori" class="align-middle table-success" [ngClass]="{'table-success': giocatore?.valutazione > 6, 'table-danger': giocatore?.valutazione < 6}">
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
-        </tr>
-    </tbody>
-    <tbody *ngIf="attaccanti">
-        <tr *ngFor="let giocatore of attaccanti" class="align-middle table-danger" [ngClass]="{'table-success': giocatore?.valutazione > 6, 'table-danger': giocatore?.valutazione < 6}">
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
-            <td>{{giocatore?.costo}}</td>
+    <tbody *ngIf="riserve">
+        <tr *ngFor="let giocatore of riserve" class="align-middle table-warning" [ngClass]="{'table-success': giocatore?.valutazione > 6, 'table-danger': giocatore?.valutazione < 6}">
+            <td>{{giocatore?.nome}}</td>
+            <td>{{giocatore?.infortunato_espulso}}</td>
+            <td>{{giocatore?.valutazione}}</td>
         </tr>
     </tbody>
 </table>
