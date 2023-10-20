@@ -23,6 +23,10 @@ export class FormationService {
     return this.http.post(environment.apiUrl + this.endpoint + "/aggiornaFormazione", request);
   }
 
+  getClassifica() {
+    return this.http.get(environment.apiUrl + this.endpoint + "/classifica");
+  }
+
   getGiocatoriSquadra(utente: any, type: number) {
     let request  = {
       type: type,

@@ -12,6 +12,7 @@ import { MatchsComponent } from './matchs/matchs.component';
 import { FormationComponent } from './formation/formation.component';
 import { MarketComponent } from './market/market.component';
 import { MatchOfDayComponent } from './match-of-day/match-of-day.component';
+import { ClassifiedComponent } from './classified/classified.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
   { path: 'matchs', component: MatchsComponent},
   { path: 'market', component: MarketComponent},
   { path: 'formation', component: FormationComponent},
-  { path: 'matchofday', component: MatchOfDayComponent}
+  { path: 'matchofday', component: MatchOfDayComponent},
+  { path: 'classified', component: ClassifiedComponent}
 ];
 
 
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
     MatchsComponent,
     FormationComponent,
     MarketComponent,
-    MatchOfDayComponent
+    MatchOfDayComponent,
+    ClassifiedComponent
   ],
   providers: [],
   bootstrap: [HomeComponent]
