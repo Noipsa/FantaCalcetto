@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class MemoryLoginService {
   userChange: EventEmitter<boolean> = new EventEmitter();
+  adminEvent: EventEmitter<boolean> = new EventEmitter();
 
   utenteLoggato: any;
 
@@ -31,5 +32,9 @@ export class MemoryLoginService {
 
   getUtenteAggiornato(): Observable<any>{
     return this.http.get(environment.apiUrl + this.endpoint + "/user/" + this.utenteLoggato.id_utente);
+  }
+
+  adminLogin() {
+    this.adminEvent.emit(true);
   }
 }

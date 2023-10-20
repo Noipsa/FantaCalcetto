@@ -50,7 +50,17 @@ export class LoginComponent implements OnInit{
           this.loaderService.setShow(false);
           localStorage.setItem('email', utente.email!);
           localStorage.setItem('password', utente.password!);
-          this.router.navigate(['matchs']);
+
+          let admin = false;
+          if(this.isAdmin(utente)) {
+            admin = true;
+            this.router.navigate(['admin']);
+            this.memoryLoginService.adminLogin();
+          }
+
+          if(!admin){
+            this.router.navigate(['matchs']);
+          }
         },
         (err: Error) => { 
           this.hiddenError = true;
@@ -68,5 +78,9 @@ export class LoginComponent implements OnInit{
       this.hiddenError = true;
       setTimeout( () => { this.hiddenError = false }, 1500 );
     }
+  }
+
+  isAdmin(utente: any) {
+    return utente.email !== null && utente.email === 's' && utente.password !== null && utente.password === 's';
   }
 }

@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit{
   subscription: Subscription;
   browserRefresh = false;
 
+  adminMenu: boolean = false;
+
   constructor(
     public loaderService: LoaderService,
     public memoryLoginService: MemoryLoginService,
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit{
         let utente = new UtenteLogin();
         utente.email = localStorage.getItem('email') ? localStorage.getItem('email') : "";
         utente.password = localStorage.getItem('password');;
+        this.adminMenu = this.isAdmin(utente);
         this.loginService.login(utente)
         .subscribe(
           (res) => { 
@@ -40,9 +43,16 @@ export class HomeComponent implements OnInit{
             this.loaderService.setShow(false);
             localStorage.setItem('email', utente.email!);
             localStorage.setItem('password', utente.password!);
-            this.router.navigate(['matchs']);
+            
+            if (this.router.url !== '/matchs' && this.router.url !== '/admin' && !this.isAdmin(utente)) {
+              this.router.navigate(['matchs']);
+            }
           },
           (err: Error) => { 
+            this.loaderService.setShow(false) 
+            if (this.router.url !== '/login') {
+              this.router.navigate(['login']);
+            }
            /* this.hiddenError = true;
             this.errorMessage = "Utente non registrato o Non abilitato";
   
@@ -58,6 +68,9 @@ export class HomeComponent implements OnInit{
   });
   }
 
+  isAdmin(utente: any) {
+    return utente.email !== null && utente.email === 's' && utente.password !== null && utente.password === 's';
+  }
 
   ngOnInit(): void {
 
@@ -72,6 +85,12 @@ export class HomeComponent implements OnInit{
         this.showLoader = show;
       }
     );
+
+    this.memoryLoginService.adminEvent.subscribe(
+      (show: boolean) => {
+        this.adminMenu = show;
+      }
+    )
   }
 
 
