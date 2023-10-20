@@ -1,1 +1,80 @@
-<p>amministrazione works!</p>
+<div class="container border p-3 mb-3">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">nome</span>
+        <input type="text" class="form-control" placeholder="mario rossi" aria-label="Username"
+            aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">valutazione</span>
+        <input type="text" class="form-control" placeholder="34" aria-label="Recipient's username"
+            aria-describedby="basic-addon2">
+    </div>
+    <button class="btn btn-success w-100">inserisci giocatore</button>
+</div>
+<div class="container border p-3 mb-3">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
+        <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
+    </div>
+
+    <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{giocatoreSelected}}
+        </button>
+        <ul class="dropdown-menu w-100 text-center">
+            <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)">{{option}}</li>
+        </ul>
+    </div>
+
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">punteggio</span>
+        <input type="text" class="form-control" placeholder="6" aria-label="Recipient's username"
+            aria-describedby="basic-addon2">
+    </div>
+
+    <button class="btn btn-success w-100">inserisci giocatore</button>
+</div>
+<div class="container border p-3 mb-3" *ngIf="utenti.length > 0">
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item" *ngFor="let utente of utenti">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Accordion Item #1
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <button class="btn btn-danger w-100 mb-2">rifiuta</button>
+                    <button class="btn btn-success w-100">accetta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container border p-3 mb-3" *ngIf="giocatori.length > 0">
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item" *ngFor="let giocatore of giocatori">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#carlo"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Accordion Item #1
+                </button>
+            </h2>
+            <div id="carlo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <button class="btn btn-danger w-100 mb-2">elimina</button>
+                    <button class="btn btn-danger w-100 mb-2">infortunio</button>
+                    <button class="btn btn-danger w-100">squalificazione</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container border p-3 mb-3">
+    <button class="btn btn-success w-100">calcola giornata</button>
+</div>
