@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit{
   }
 
   isAdmin(utente: any) {
-    return utente.email !== null && utente.email === 's' && utente.password !== null && utente.password === 's';
+    return utente.email !== null && utente.email.toLowerCase() === 's' && utente.password !== null && utente.password.toLowerCase() === 's';
   }
 
   ngOnInit(): void {
