@@ -14,6 +14,7 @@ import { MarketComponent } from './market/market.component';
 import { MatchOfDayComponent } from './match-of-day/match-of-day.component';
 import { ClassifiedComponent } from './classified/classified.component';
 import { AmministrazioneComponent } from './amministrazione/amministrazione.component';
+import { UserComponent } from './user/user.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
   { path: 'formation', component: FormationComponent},
   { path: 'matchofday', component: MatchOfDayComponent},
   { path: 'classified', component: ClassifiedComponent},
-  { path: 'admin', component: AmministrazioneComponent}
+  { path: 'admin', component: AmministrazioneComponent},
+  { path: 'user', component: UserComponent}
 ];
 
 
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     MarketComponent,
     MatchOfDayComponent,
     ClassifiedComponent,
-    AmministrazioneComponent
+    AmministrazioneComponent,
+    UserComponent
   ],
   providers: [],
   bootstrap: [HomeComponent]

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UtenteAggiornato } from '../model/ResUtenteAggiornato';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class MemoryLoginService {
     this.userChange.emit(false);
   }
 
-  getUtenteAggiornato(): Observable<any>{
-    return this.http.get(environment.apiUrl + this.endpoint + "/user/" + this.utenteLoggato.id_utente);
+  getUtenteAggiornato(): Observable<UtenteAggiornato>{
+    return this.http.get<UtenteAggiornato>(environment.apiUrl + this.endpoint + "/user/" + this.utenteLoggato.id_utente);
   }
 
   adminLogin() {
