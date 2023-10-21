@@ -1,3 +1,4 @@
+<button type="button" class="btn btn-danger mb-3" (click)="logOut()">Logout</button>
 <form [formGroup]="giocatoreForm" (submit)="insertGiocatore()">
     <div class="container border p-3 mb-3">
         <div class="input-group mb-3">
@@ -5,7 +6,7 @@
             <input type="text" class="form-control" aria-label="Username"
                 aria-describedby="basic-addon1" formControlName="nome">
         </div>
-    
+
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">valutazione</span>
             <input type="number" class="form-control" aria-label="Recipient's username"
@@ -19,7 +20,7 @@
                 <option>ATT</option>
             </select>
         </div>
-        <div *ngIf="errorMessages.length > 0" class="m-1 bg-danger" style="color: white;">
+        <div *ngIf="errorMessages.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
             <label>{{errorMessages[0]}}</label>
         </div>
         <button class="btn btn-success w-100" type="submit">inserisci giocatore</button>
@@ -27,28 +28,30 @@
 </form>
 
 <div class="container border p-3 mb-3">
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
-        <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
-    </div>
+    <form [formGroup]="giocatoreValutazioneForm" (submit)="null">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
+            <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
+        </div>
 
-    <div class="dropdown mb-3">
-        <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{giocatoreSelected}}
-        </button>
-        <ul class="dropdown-menu w-100 text-center">
-            <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)">{{option}}</li>
-        </ul>
-    </div>
+        <div class="dropdown mb-3">
+            <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{giocatoreSelected.nome ? giocatoreSelected.nome : giocatoreSelected}}
+            </button>
+            <ul class="dropdown-menu w-100 text-center">
+                <li (click)="onSelectDropdownValue('scegli giocatore')" class="p-1">scegli giocatore</li>
+                <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)" class="p-1">{{option.nome}}</li>
+            </ul>
+        </div>
 
 
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">punteggio</span>
-        <input type="text" class="form-control" placeholder="6" aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">punteggio</span>
+            <input type="text" class="form-control" formControlName="punteggio">
+        </div>
 
-    <button class="btn btn-success w-100">inserisci giocatore</button>
+        <button class="btn btn-success w-100">inserisci punteggio giocatore</button>
+    </form>
 </div>
 <div class="container border p-3 mb-3" *ngIf="utenti.length > 0">
     <div class="accordion" id="accordionExample">
@@ -90,6 +93,20 @@
 </div>
 
 <div class="container border p-3 mb-3">
-    <button class="btn btn-success w-100">calcola giornata</button>
+    <button class="btn btn-success w-100" (click)="openModalCalcolaGiornata(content)">calcola giornata</button>
 </div>
+
+<div *ngIf="errorMessagesGiornata.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
+    <label>{{errorMessagesGiornata[0]}}</label>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header" >
+        <h4 class="modal-title" id="modal-basic-title">sicuro?</h4>
+    </div>
+    <div class="modal-body">
+        <button type="button" class="btn btn-success w-100 mb-3" (click)="modal.close()">calcola</button>
+        <button type="button" class="btn btn-danger w-100" (click)="modal.dismiss()">non calcolare</button>
+    </div>
+</ng-template>
 

@@ -1,15 +1,15 @@
-<div [ngStyle]="{'opacity': showLoader ? '0.5' : '1',
+<div style="margin-bottom: 10vh;" [ngStyle]="{'opacity': showLoader ? '0.5' : '1',
                  'user-select': showLoader ? 'none' : null, 
                  'pointer-events': showLoader ? 'none' : null}" class="container w-100 h-100 z-2 mt-3">
-    <div class="spinner-border position-absolute top-50 z-1" style="left: 45%;" role="status" *ngIf="showLoader">
+    <div class="spinner-border position-absolute top-50 z-5" style="left: 45%;" role="status" *ngIf="showLoader">
 
         <span></span>
     </div>
     <router-outlet ></router-outlet>
-</div>
+</div >
 
 
-<div class="fixed-bottom">
+<div class="fixed-bottom " >
 <nav class="navbar navbar-dark bg-dark sticky-bottom" style="height: 7%;" *ngIf="showMenu && !adminMenu">
     <ul class="container-fluid nav">
         <li class="nav-item">

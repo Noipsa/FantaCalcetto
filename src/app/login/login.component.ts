@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit{
     this.profileForm.get('email')?.setValue(this.profileForm.get('email')?.value.trim());
     this.profileForm.get('password')?.setValue(this.profileForm.get('password')?.value.trim());
     if (this.profileForm.valid) {
+      this.memoryLoginService.adminEvent.emit(false);
       this.loaderService.setShow(true);
       let utente = new UtenteLogin();
       utente.email = this.profileForm.get('email')?.value;
