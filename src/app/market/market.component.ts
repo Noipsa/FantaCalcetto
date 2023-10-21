@@ -28,7 +28,7 @@ export class MarketComponent implements OnInit{
     }).subscribe(
     (res) => { 
       if(res) {
-        this.giocatoriAttualiSquadra = res.utente.squadra.giocatori_acquistati;
+        this.giocatoriAttualiSquadra = res.utente.squadra?.giocatori_acquistati;
         this.giocatori = res.giocatori;
       }
       this.loaderService.setShow(false);

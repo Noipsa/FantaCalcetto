@@ -47,7 +47,7 @@ export class FormationComponent implements OnInit{
     }).subscribe(
       (res) => { 
         if(res) {
-          this.userFormation = res.utente.squadra.id_formazione;
+          this.userFormation = res.utente.squadra?.id_formazione;
           this.formazioni = res.formazioni;
 
           this.giocatoriPosseduti = res.giocatori;

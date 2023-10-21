@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let squadra of squadre">
+    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let squadra of squadre" [ngStyle]="{'background-color':team?.id_squadra == squadra.idSquadra ? 'green' : 'white' }">
         {{squadra.nome}}
         <span class="badge bg-primary rounded-pill">{{squadra.punteggio}}</span>
     </li>
