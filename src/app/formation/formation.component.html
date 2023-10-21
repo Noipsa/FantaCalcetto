@@ -7,7 +7,7 @@
 
 <ul class="list-group" *ngIf="formazioneSelected">
     <div *ngFor="let portiere of portieri">
-        <li class="list-group-item" *ngIf="portiere.id_giocatore != 0; else scegliportiere">
+        <li class="list-group-item" *ngIf="portiere.id_giocatore; else scegliportiere">
             <h5>
                 <h5 class="text-warning">Portiere</h5> {{portiere.nome}}
             </h5>
@@ -19,7 +19,7 @@
     <br>
 
     <div *ngFor="let difensore of difensori">
-        <li class="list-group-item mb-3 align-middle" *ngIf="difensore.id_giocatore != 0; else sceglidifensore">
+        <li class="list-group-item mb-3 align-middle" *ngIf="difensore.id_giocatore; else sceglidifensore">
             <h5>
                 <h5 class="text-success">Difensore</h5> {{difensore.nome}}
             </h5>
@@ -32,7 +32,7 @@
     <br>
 
     <div *ngFor="let attaccante of attaccanti">
-        <li class="list-group-item mb-3" *ngIf="attaccante.id_giocatore != 0; else scegliattaccante">
+        <li class="list-group-item mb-3" *ngIf="attaccante.id_giocatore; else scegliattaccante">
             <h5>
                 <h5 class="text-danger">Attaccante</h5> {{attaccante.nome}}
             </h5>

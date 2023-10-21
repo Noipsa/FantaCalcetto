@@ -37,17 +37,19 @@ export class LoginComponent implements OnInit{
     this.profileForm.get('email')?.setValue(this.profileForm.get('email')?.value.trim());
     this.profileForm.get('password')?.setValue(this.profileForm.get('password')?.value.trim());
     if (this.profileForm.valid) {
+      this.memoryLoginService.adminEvent.emit(false);
       this.loaderService.setShow(true);
       let utente = new UtenteLogin();
       utente.email = this.profileForm.get('email')?.value;
       utente.password = this.profileForm.get('password')?.value;
       this.loginService.login(utente)
       .subscribe(
-        (res) => { 
+        (res: any) => { 
           this.memoryLoginService.setUtente(res);
           this.hiddenSuccess = true;
           setTimeout( () => { this.hiddenSuccess = false }, 1500 );
           this.loaderService.setShow(false);
+          localStorage.setItem('id', res.id_utente);
           localStorage.setItem('email', utente.email!);
           localStorage.setItem('password', utente.password!);
 
@@ -81,6 +83,6 @@ export class LoginComponent implements OnInit{
   }
 
   isAdmin(utente: any) {
-    return utente.email !== null && utente.email === 's' && utente.password !== null && utente.password === 's';
+    return utente.email !== null && utente.email.toLowerCase() === 's' && utente.password !== null && utente.password.toLowerCase() === 's';
   }
 }

@@ -1,3 +1,4 @@
+<button type="button" class="btn btn-danger mb-3 w-50" (click)="logOut()">Logout</button>
 <form [formGroup]="giocatoreForm" (submit)="insertGiocatore()">
     <div class="container border p-3 mb-3">
         <div class="input-group mb-3">
@@ -5,7 +6,7 @@
             <input type="text" class="form-control" aria-label="Username"
                 aria-describedby="basic-addon1" formControlName="nome">
         </div>
-    
+
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">valutazione</span>
             <input type="number" class="form-control" aria-label="Recipient's username"
@@ -19,7 +20,7 @@
                 <option>ATT</option>
             </select>
         </div>
-        <div *ngIf="errorMessages.length > 0" class="m-1 bg-danger" style="color: white;">
+        <div *ngIf="errorMessages.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
             <label>{{errorMessages[0]}}</label>
         </div>
         <button class="btn btn-success w-100" type="submit">inserisci giocatore</button>
@@ -27,46 +28,58 @@
 </form>
 
 <div class="container border p-3 mb-3">
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
-        <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
-    </div>
-
-    <div class="dropdown mb-3">
-        <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{giocatoreSelected}}
-        </button>
-        <ul class="dropdown-menu w-100 text-center">
-            <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)">{{option}}</li>
-        </ul>
-    </div>
-
-
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">punteggio</span>
-        <input type="text" class="form-control" placeholder="6" aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
-    </div>
-
-    <button class="btn btn-success w-100">inserisci giocatore</button>
-</div>
-<div class="container border p-3 mb-3" *ngIf="utenti.length > 0">
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item" *ngFor="let utente of utenti">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <button class="btn btn-danger w-100 mb-2">rifiuta</button>
-                    <button class="btn btn-success w-100">accetta</button>
-                </div>
-            </div>
+    <form [formGroup]="giocatoreValutazioneForm" (submit)="inserisciValutazioneGiocatore()">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
+            <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
         </div>
-    </div>
+
+        <div class="dropdown mb-3">
+            <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{giocatoreSelected.nome ? giocatoreSelected.nome : giocatoreSelected}}
+            </button>
+            <ul class="dropdown-menu w-100 text-center">
+                <li (click)="onSelectDropdownValue('scegli giocatore')" class="p-1">scegli giocatore</li>
+                <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)" class="p-1">{{option.nome}}</li>
+            </ul>
+        </div>
+
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">punteggio</span>
+            <input type="text" class="form-control" formControlName="punteggio">
+        </div>
+
+        <button class="btn btn-success w-100">inserisci punteggio giocatore</button>
+        <div *ngIf="errorMessagesValutazione.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
+            <label>{{errorMessagesValutazione[0]}}</label>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="container border p-3 mb-3" *ngIf="utenti.length > 0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Accetta</th>
+                <th scope="col">Rifiuta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let utente of utenti">
+                <td>{{utente.email}}</td>
+                <td>
+                    <button class="btn btn-success w-100 mb-2" (click)="autorizza(utente.id_utente)">Accetta</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger w-100 mb-2" (click)="elimina(utente.id_utente)">Elimina</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div class="container border p-3 mb-3" *ngIf="giocatori.length > 0">
@@ -90,6 +103,20 @@
 </div>
 
 <div class="container border p-3 mb-3">
-    <button class="btn btn-success w-100">calcola giornata</button>
+    <button class="btn btn-success w-100" (click)="openModalCalcolaGiornata(content)">calcola giornata</button>
 </div>
+
+<div *ngIf="errorMessagesGiornata.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
+    <label>{{errorMessagesGiornata[0]}}</label>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header" >
+        <h4 class="modal-title" id="modal-basic-title">sicuro?</h4>
+    </div>
+    <div class="modal-body">
+        <button type="button" class="btn btn-success w-100 mb-3" (click)="modal.close()">calcola</button>
+        <button type="button" class="btn btn-danger w-100" (click)="modal.dismiss()">non calcolare</button>
+    </div>
+</ng-template>
 
