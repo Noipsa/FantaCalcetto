@@ -44,11 +44,12 @@ export class LoginComponent implements OnInit{
       utente.password = this.profileForm.get('password')?.value;
       this.loginService.login(utente)
       .subscribe(
-        (res) => { 
+        (res: any) => { 
           this.memoryLoginService.setUtente(res);
           this.hiddenSuccess = true;
           setTimeout( () => { this.hiddenSuccess = false }, 1500 );
           this.loaderService.setShow(false);
+          localStorage.setItem('id', res.id_utente);
           localStorage.setItem('email', utente.email!);
           localStorage.setItem('password', utente.password!);
 

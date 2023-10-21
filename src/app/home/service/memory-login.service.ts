@@ -32,7 +32,8 @@ export class MemoryLoginService {
   }
 
   getUtenteAggiornato(): Observable<UtenteAggiornato>{
-    return this.http.get<UtenteAggiornato>(environment.apiUrl + this.endpoint + "/user/" + this.utenteLoggato.id_utente);
+    let id = localStorage.getItem('id')
+    return this.http.get<UtenteAggiornato>(environment.apiUrl + this.endpoint + "/user/" + id);
   }
 
   adminLogin() {

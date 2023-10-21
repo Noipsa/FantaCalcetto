@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MarketService } from '../market/service/market.service';
 import { GiocatoreInsert } from '../market/model/giocatoreInsert';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'amministrazione',
@@ -23,6 +24,7 @@ export class AmministrazioneComponent implements OnInit {
 
   errorMessages: string[] = [];
   errorMessagesGiornata: string[] = [];
+  errorMessagesValutazione: string[] = [];
 
   giocatoreValutazioneForm: FormGroup;
 
@@ -46,16 +48,19 @@ export class AmministrazioneComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.amministratoreService.getAllGiocatori().subscribe(
+    this.loaderService.setShow(true);
+    forkJoin({
+      giocatori: this.amministratoreService.getAllGiocatori(),
+      utenti: this.amministratoreService.getUtenti()
+    }).subscribe(
       (res) => {
+        this.searchedOptions = res.giocatori;
+        this.options = res.giocatori;
+      
+        this.utenti = res.utenti;
         this.loaderService.setShow(false);
-        this.searchedOptions = res;
-        this.options = res;
       },
       (err: Error) => {
-        this.loaderService.setShow(false);
-      },
-      () => {
         this.loaderService.setShow(false);
       }
     );
@@ -78,7 +83,44 @@ export class AmministrazioneComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  insertGiocatore() {
+  inserisciValutazioneGiocatore() {
+    this.errorMessagesValutazione = [];
+    if (this.giocatoreValutazioneForm.valid) {
+      this.loaderService.setShow(true);
+      let giocatore: any = {};
+      giocatore.giocatore = this.giocatoreValutazioneForm.controls['giocatore'].value;
+      giocatore.valutazione = Number.parseInt(
+        this.giocatoreValutazioneForm.controls['punteggio'].value
+      );
+      if (giocatore.valutazione == null) {
+        this.amministratoreService
+          .insertGiocatoreValutazione(giocatore)
+          .subscribe(
+            () => {
+              this.loaderService.setShow(false);
+              this.giocatoreSelected = 'scegli giocatore';
+              this.giocatoreValutazioneForm.controls['giocatore'].setValue(
+                null
+              );
+              this.giocatoreValutazioneForm.controls['punteggio'].setValue(
+                null
+              );
+            },
+            (err: Error) => {
+              this.errorMessagesValutazione.push('ERRORE');
+              this.loaderService.setShow(false);
+            }
+          );
+      } else {
+        this.errorMessagesValutazione.push('Inserisci Valutazione');
+        this.loaderService.setShow(false);
+      }
+    } else {
+      this.errorMessagesValutazione.push("Completare tutti i campi per l'inserimento");
+    }
+  }
+
+  insertGiocatore () {
     this.errorMessages = [];
     if (this.giocatoreForm.valid) {
       this.loaderService.setShow(true);
@@ -127,5 +169,31 @@ export class AmministrazioneComponent implements OnInit {
       },
       () => { },
     );
+  }
+
+  autorizza(id: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.autorizzaUtente(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  elimina(id: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.eliminaUtente(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
   }
 }
