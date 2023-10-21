@@ -1,17 +1,31 @@
-<div class="container border p-3 mb-3">
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">nome</span>
-        <input type="text" class="form-control" placeholder="mario rossi" aria-label="Username"
-            aria-describedby="basic-addon1">
+<form [formGroup]="giocatoreForm" (submit)="insertGiocatore()">
+    <div class="container border p-3 mb-3">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">nome</span>
+            <input type="text" class="form-control" aria-label="Username"
+                aria-describedby="basic-addon1" formControlName="nome">
+        </div>
+    
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">valutazione</span>
+            <input type="number" class="form-control" aria-label="Recipient's username"
+                aria-describedby="basic-addon2" formControlName="costo" >
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Ruolo</span>
+            <select class="form-control" name="ruolo" id="id" formControlName="ruolo">
+                <option>POR</option>
+                <option>DIF</option>
+                <option>ATT</option>
+            </select>
+        </div>
+        <div *ngIf="errorMessages.length > 0" class="m-1 bg-danger" style="color: white;">
+            <label>{{errorMessages[0]}}</label>
+        </div>
+        <button class="btn btn-success w-100" type="submit">inserisci giocatore</button>
     </div>
+</form>
 
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">valutazione</span>
-        <input type="text" class="form-control" placeholder="34" aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
-    </div>
-    <button class="btn btn-success w-100">inserisci giocatore</button>
-</div>
 <div class="container border p-3 mb-3">
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
@@ -78,3 +92,4 @@
 <div class="container border p-3 mb-3">
     <button class="btn btn-success w-100">calcola giornata</button>
 </div>
+
