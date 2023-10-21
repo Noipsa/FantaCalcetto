@@ -1,8 +1,18 @@
 <ng-template class="container w-100" #nothing>
-    <h1 class="text-center mt-3">Nessun Giocatore</h1>
+  <h1 class="text-center mt-3">Nessun Giocatore</h1>
 </ng-template>
-  
-<table class="table mb-5" *ngIf="giocatori.length > 0;else nothing">
+
+<div class="position-flex mt-1 mb-1">
+  <select class="form-control" name="ruolo" id="ruolo" [(ngModel)]='nrSelect' (change)="onChangeRuolo()">
+    <option value="ALL" select>Tutti</option>
+    <option value="POR">Portieri</option>
+    <option value="DIF">Difensori</option>
+    <option value="ATT">Attaccanti</option>
+  </select>
+</div>
+
+<div>
+  <table class="table mb-5" *ngIf="giocatori.length > 0;else nothing">
     <thead>
       <tr>
         <th scope="col">Giocatore</th>
@@ -17,13 +27,14 @@
         <td>{{giocatore?.costo}}</td>
         <td>{{giocatore?.eruolo}}</td>
         <td *ngIf="!giaPresente(giocatore.id_giocatore);else sell">
-            <button type="button" class="btn btn-success w-100" (click)="buy(giocatore)">Acquista</button>
+          <button type="button" class="btn btn-success w-100" (click)="buy(giocatore)">Acquista</button>
         </td>
         <ng-template #sell>
-            <td>
-                <button type="button" class="btn btn-danger w-100" (click)="sellgiocatore(giocatore)">Vendi</button>
-            </td>
+          <td>
+            <button type="button" class="btn btn-danger w-100" (click)="sellgiocatore(giocatore)">Vendi</button>
+          </td>
         </ng-template>
       </tr>
     </tbody>
   </table>
+</div>

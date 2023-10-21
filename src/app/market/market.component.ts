@@ -13,6 +13,8 @@ import { forkJoin, switchMap, tap } from 'rxjs';
 export class MarketComponent implements OnInit{
   giocatori: any = [];
   giocatoriAttualiSquadra: any = [];
+  nrSelect: string = ''; 
+  giocatoriAll : any = [];
 
   constructor(
     public marketService: MarketService,
@@ -22,6 +24,7 @@ export class MarketComponent implements OnInit{
 
   ngOnInit(): void {
     this.loaderService.setShow(true);
+    this.nrSelect = "ALL";
     forkJoin({
       giocatori: this.marketService.getAllGiocatori(),
       utente: this.memoryLoginService.getUtenteAggiornato()
@@ -30,6 +33,7 @@ export class MarketComponent implements OnInit{
       if(res) {
         this.giocatoriAttualiSquadra = res.utente.squadra?.giocatori_acquistati;
         this.giocatori = res.giocatori;
+        this.giocatoriAll = this.giocatori;
       }
       this.loaderService.setShow(false);
     },
@@ -75,5 +79,14 @@ export class MarketComponent implements OnInit{
       });
     }
     return found;
+  }
+
+  onChangeRuolo(){
+    if(this.nrSelect == 'ALL'){
+      this.giocatori = this.giocatoriAll;
+    }else {
+      this.giocatori = this.giocatoriAll.filter((giocatore:any)=>giocatore.eruolo === this.nrSelect)
+    }
+    console.log(this.nrSelect);
   }
 }
