@@ -54,7 +54,7 @@ export class AmministrazioneComponent implements OnInit {
     });
 
     this.giocatoreValutazioneForm = new FormGroup({
-      giocatore: new FormControl('', Validators.required),
+      giocatore: new FormControl(Validators.required),
       punteggio: new FormControl('', Validators.required),
     });
 
@@ -63,14 +63,14 @@ export class AmministrazioneComponent implements OnInit {
     });
 
     this.creditoForm = new FormGroup({
-      credito: new FormControl('', Validators.required)
+      credito: new FormControl(Validators.required)
     });
 
     this.partitaForm = new FormGroup({
-      id_prima_squadra: new FormControl('', Validators.required),
-      id_seconda_squadra: new FormControl('', Validators.required),
-      giornata: new FormControl('', Validators.required),
-      data_partita: new FormControl('', Validators.required),
+      id_prima_squadra: new FormControl( Validators.required),
+      id_seconda_squadra: new FormControl(Validators.required),
+      giornata: new FormControl(Validators.required),
+      data_partita: new FormControl(Validators.required),
     });
   }
 
@@ -166,7 +166,7 @@ export class AmministrazioneComponent implements OnInit {
       giocatore.valutazione = Number.parseInt(
         this.giocatoreValutazioneForm.controls['punteggio'].value
       );
-      if (giocatore.valutazione == null) {
+      if (giocatore.valutazione != null) {
         this.amministratoreService
           .insertGiocatoreValutazione(giocatore)
           .subscribe(
