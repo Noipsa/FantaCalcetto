@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit{
   showMenu: boolean = false;
   subscription: Subscription;
   browserRefresh = false;
+  
+  alreadyReload: boolean = false;
 
   adminMenu: boolean = false;
 
@@ -25,45 +27,48 @@ export class HomeComponent implements OnInit{
     private router: Router,
     private loginService : LoginService
   ) {
+
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.browserRefresh = !router.navigated;
+        this.alreadyReload = true;
       }
-      if(this.browserRefresh){
+      if(this.browserRefresh && this.alreadyReload){
+        this.alreadyReload = false;
         let utente = new UtenteLogin();
         utente.email = localStorage.getItem('email') ? localStorage.getItem('email') : "";
         utente.password = localStorage.getItem('password');;
         this.adminMenu = this.isAdmin(utente);
         this.loginService.login(utente)
         .subscribe(
-          (res) => { 
+          (res) => {
             this.memoryLoginService.setUtente(res);
             //this.hiddenSuccess = true;
             //setTimeout( () => { this.hiddenSuccess = false }, 1500 );
             this.loaderService.setShow(false);
             localStorage.setItem('email', utente.email!);
             localStorage.setItem('password', utente.password!);
-            
+
             if (this.router.url !== '/matchs' && this.router.url !== '/admin' && !this.isAdmin(utente)) {
               this.router.navigate(['matchs']);
             }
           },
-          (err: Error) => { 
-            this.loaderService.setShow(false) 
+          (err: Error) => {
+            this.loaderService.setShow(false)
             if (this.router.url !== '/login') {
               this.router.navigate(['login']);
             }
            /* this.hiddenError = true;
             this.errorMessage = "Utente non registrato o Non abilitato";
-  
+
             this.profileForm.get('email')?.setValue("");
             this.profileForm.get('password')?.setValue("");
-  
+
             setTimeout( () => { this.hiddenError = false }, 1500 );
             this.loaderService.setShow(false) */
           },
           () => { this.loaderService.setShow(false) })
-        
+
       }
   });
   }

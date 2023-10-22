@@ -22,6 +22,10 @@ export class AmministrazioneComponent implements OnInit {
   giocatoreSelected: any = 'scegli giocatore';
   giocatoreForm: FormGroup;
 
+  mercatoAperto: boolean = false;
+
+  giocatoreDaModificare: any;
+
   errorMessages: string[] = [];
   errorMessagesGiornata: string[] = [];
   errorMessagesValutazione: string[] = [];
@@ -51,11 +55,16 @@ export class AmministrazioneComponent implements OnInit {
     this.loaderService.setShow(true);
     forkJoin({
       giocatori: this.amministratoreService.getAllGiocatori(),
-      utenti: this.amministratoreService.getUtenti()
+      utenti: this.amministratoreService.getUtenti(),
+      mercato: this.amministratoreService.getMercato(),
     }).subscribe(
       (res) => {
         this.searchedOptions = res.giocatori;
         this.options = res.giocatori;
+
+        this.giocatori = res.giocatori;
+
+        this.mercatoAperto = Boolean(res.mercato);
       
         this.utenti = res.utenti;
         this.loaderService.setShow(false);
@@ -64,6 +73,8 @@ export class AmministrazioneComponent implements OnInit {
         this.loaderService.setShow(false);
       }
     );
+
+    this.mercatoAperto = Boolean(JSON.parse(localStorage.getItem('mercato')!));
   }
 
   onSeachDropdownValue(event: any) {
@@ -187,6 +198,61 @@ export class AmministrazioneComponent implements OnInit {
   elimina(id: number) {
     this.loaderService.setShow(true);
     this.amministratoreService.eliminaUtente(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  eliminaGiocatore(id: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.eliminaGiocatore(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  infortunioGiocatore(id: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.infortunioGiocatore(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.giocatoreDaModificare = null;
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  squalificaGiocatore(id: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.squalificaGiocatore(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.giocatoreDaModificare = null;
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  apriChiudiMercato() {
+    this.loaderService.setShow(true);
+    this.giocatoreDaModificare = null;
+    this.amministratoreService.apriChiudiMercato().subscribe(
       () => {
         this.ngOnInit();
         this.loaderService.setShow(false);

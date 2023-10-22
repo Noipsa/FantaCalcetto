@@ -33,4 +33,24 @@ export class AmministrazioneService {
   eliminaUtente(id: number) {
     return this.http.delete(environment.apiUrl + this.endpoint + "utenti/elimina/" + id);
   }
+
+  squalificaGiocatore(id: number) {
+    return this.http.put(environment.apiUrl + this.endpoint + "giocatore/squalifica/" + id, null);
+  }
+
+  infortunioGiocatore(id: number) {
+    return this.http.put(environment.apiUrl + this.endpoint + "giocatore/infortunio/" + id, null);
+  }
+
+  eliminaGiocatore(id: number) {
+    return this.http.delete(environment.apiUrl + this.endpoint + "giocatore/elimina/" + id);
+  }
+
+  apriChiudiMercato() {
+    return this.http.put(environment.apiUrl + this.endpoint + "configurazioni/mercato", null);
+  }
+
+  getMercato() {
+    return this.http.get(environment.apiUrl + this.endpoint + "configurazioni/mercato");
+  }
 }

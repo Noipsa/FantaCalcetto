@@ -49,9 +49,11 @@ export class LoginComponent implements OnInit{
           this.hiddenSuccess = true;
           setTimeout( () => { this.hiddenSuccess = false }, 1500 );
           this.loaderService.setShow(false);
-          localStorage.setItem('id', res.id_utente);
+          localStorage.setItem('id', res.utente.id_utente);
           localStorage.setItem('email', utente.email!);
           localStorage.setItem('password', utente.password!);
+
+          localStorage.setItem('mercato', res.mercato);
 
           let admin = false;
           if(this.isAdmin(utente)) {

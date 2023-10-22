@@ -50,7 +50,7 @@
             <input type="text" class="form-control" formControlName="punteggio">
         </div>
 
-        <button class="btn btn-success w-100">inserisci punteggio giocatore</button>
+        <button class="btn btn-success w-100">inserisci punteggio giocatore giornata</button>
         <div *ngIf="errorMessagesValutazione.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
             <label>{{errorMessagesValutazione[0]}}</label>
         </div>
@@ -81,25 +81,35 @@
         </tbody>
     </table>
 </div>
-
 <div class="container border p-3 mb-3" *ngIf="giocatori.length > 0">
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item" *ngFor="let giocatore of giocatori">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#carlo"
-                    aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="carlo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <button class="btn btn-danger w-100 mb-2">elimina</button>
-                    <button class="btn btn-danger w-100 mb-2">infortunio</button>
-                    <button class="btn btn-danger w-100">squalificazione</button>
-                </div>
-            </div>
-        </div>
+    <select class="form-select mb-2 border-black focus-ring focus-ring-dark" (change)="null" [(ngModel)]="giocatoreDaModificare">
+        <option  [ngValue]="null"></option>
+        <option *ngFor="let giocatore of giocatori" [ngValue]="giocatore">
+            {{giocatore.nome}}
+        </option>
+    </select>
+    <div *ngIf="giocatoreDaModificare" class="w-100">
+        <button class="btn btn-danger w-100 mb-2 "
+            (click)="eliminaGiocatore(giocatoreDaModificare.id_giocatore)">Elimina</button>
+        <button class="btn w-100 mb-2" 
+                [ngClass]="giocatoreDaModificare.binfortunato ? 'btn-success' : 'btn-danger'"
+            (click)="infortunioGiocatore(giocatoreDaModificare.id_giocatore)">
+            {{giocatoreDaModificare.binfortunato ? 'ritorno da infortunio' : 'segnala infortunio'}}
+        </button>
+        <button class="btn w-100 mb-2" 
+                [ngClass]="giocatoreDaModificare.bsqualificato ? 'btn-success' : 'btn-danger'"
+            (click)="squalificaGiocatore(giocatoreDaModificare.id_giocatore)">
+            {{giocatoreDaModificare.bsqualificato ? 'riammissione' : 'segnala squalifica'}}
+        </button>
     </div>
+</div>
+
+<div class="container border p-3 mb-3">
+    <button class="btn w-100"
+            [ngClass]="mercatoAperto ? 'btn-danger' : 'btn-success'" 
+            (click)="apriChiudiMercato()">
+        {{mercatoAperto  ? 'Chiudi Mercato' : 'Apri Mercato'}}
+    </button>
 </div>
 
 <div class="container border p-3 mb-3">
