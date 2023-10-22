@@ -30,7 +30,7 @@ export class FormationService {
   getGiocatoriSquadra(utente: any, type: number) {
     let request  = {
       type: type,
-      utente: utente
+      utente: utente.utente
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/getGiocatori", request);
   }

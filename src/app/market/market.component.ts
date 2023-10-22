@@ -45,7 +45,7 @@ export class MarketComponent implements OnInit{
 
   buy(giocatore: any) {
     this.loaderService.setShow(true);
-    this.marketService.buyGiocatore(giocatore, this.memoryLoginService.getUtente()).subscribe(
+    this.marketService.buyGiocatore(giocatore, this.memoryLoginService.getUtenteId()).subscribe(
       (res) => { 
         this.loaderService.setShow(false);
         this.giocatoriAttualiSquadra = res;
@@ -58,7 +58,7 @@ export class MarketComponent implements OnInit{
 
   sellgiocatore(giocatore: any) {
     this.loaderService.setShow(true);
-    this.marketService.sellGiocatore(giocatore, this.memoryLoginService.getUtente()).subscribe(
+    this.marketService.sellGiocatore(giocatore, this.memoryLoginService.getUtenteId()).subscribe(
       (res) => { 
         this.loaderService.setShow(false);
         this.giocatoriAttualiSquadra = res;

@@ -107,7 +107,7 @@ export class FormationComponent implements OnInit{
         this.modalService.open(content).result.then(
           () => {
             this.loaderService.setShow(false)
-            this.salvaGiocatoreTitolare(this.giocatoreSelected, this.memoryLoginService.getUtente());
+            this.salvaGiocatoreTitolare(this.giocatoreSelected);
           },
           () => { },
         );
@@ -131,12 +131,13 @@ export class FormationComponent implements OnInit{
     }
 	}
 
-  salvaGiocatoreTitolare(giocatoreSelected: any, utente: any) {
+  salvaGiocatoreTitolare(giocatoreSelected: any) {
     this.loaderService.setShow(true);
-    this.titolariService.aggiornaTitolari(giocatoreSelected, utente).subscribe(
+    let id_utente = this.memoryLoginService.getUtenteId();
+    this.titolariService.aggiornaTitolari(giocatoreSelected, id_utente).subscribe(
       () => { 
         this.loaderService.setShow(false)
-        this.richiamaFormazioneTitolare(utente.id_utente);
+        this.richiamaFormazioneTitolare(id_utente);
       },
       (err: Error) => { this.loaderService.setShow(false) ;
       },

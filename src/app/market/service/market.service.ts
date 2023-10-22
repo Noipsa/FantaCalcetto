@@ -16,18 +16,18 @@ export class MarketService {
     return this.http.get(environment.apiUrl + this.endpoint + "/all");
   }
 
-  buyGiocatore(giocatore: any, utente: any) {
+  buyGiocatore(giocatore: any, id_utente: any) {
     let request  = {
       giocatore: giocatore,
-      utente: utente
+      id_utente: id_utente
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/buy", request);
   }
 
-  sellGiocatore(giocatore: any, utente: any) {
+  sellGiocatore(giocatore: any, id_utente: any) {
     let request  = {
       giocatore: giocatore,
-      utente: utente
+      id_utente: id_utente
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/sell", request);
   }

@@ -11,10 +11,10 @@ export class TitolariService {
   constructor(private http: HttpClient) {
   }
 
-  aggiornaTitolari(giocatore: any, utente: any) {
+  aggiornaTitolari(giocatore: any, id_utente: any) {
     let request  = {
       giocatore: giocatore,
-      utente: utente
+      id_utente: id_utente
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/save", request);
   }
