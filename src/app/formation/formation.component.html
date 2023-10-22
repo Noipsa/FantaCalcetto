@@ -83,3 +83,9 @@
         </tr>
     </tbody>
 </table>
+
+<div class="fixed-bottom m-3 text-center" style="margin-bottom: 12vh !important;" *ngIf="!isLimitToInsertFormation()">
+    <button type="button" 
+            class="btn w-75"
+            (click)="inserisciFormazione()">Inserisci Formazione</button>
+</div>
