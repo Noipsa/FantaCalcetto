@@ -25,6 +25,11 @@ export class MemoryLoginService {
     return this.utenteLoggato
   }
 
+  getUtenteId() {
+    let id  = localStorage.getItem('id') != null ? Number (localStorage.getItem('id')) : 0;
+    return id;
+  }
+
 
   svuotaUtente() {
     this.utenteLoggato = null;
@@ -32,7 +37,7 @@ export class MemoryLoginService {
   }
 
   getUtenteAggiornato(): Observable<UtenteAggiornato>{
-    let id = localStorage.getItem('id')
+    let id = localStorage.getItem('id');
     return this.http.get<UtenteAggiornato>(environment.apiUrl + this.endpoint + "/user/" + id);
   }
 

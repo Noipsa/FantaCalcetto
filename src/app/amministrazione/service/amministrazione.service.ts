@@ -53,4 +53,15 @@ export class AmministrazioneService {
   getMercato() {
     return this.http.get(environment.apiUrl + this.endpoint + "configurazioni/mercato");
   }
+
+  insertSquadra(nome: string) {
+    let request = {
+      nomesquadra: nome
+    }
+    return this.http.post(environment.apiUrl + this.endpoint + "squadreufficiali/inserisci", request);
+  }
+
+  getAllSquadreUfficiali() {
+    return this.http.get(environment.apiUrl + this.endpoint + "squadreufficiali/all");
+  }
 }

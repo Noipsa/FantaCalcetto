@@ -32,6 +32,9 @@ export class AmministrazioneComponent implements OnInit {
 
   giocatoreValutazioneForm: FormGroup;
 
+  squadraForm: FormGroup;
+  squadreUfficiali: any;
+
   constructor(
     private marketService: MarketService,
     private router: Router,
@@ -43,11 +46,16 @@ export class AmministrazioneComponent implements OnInit {
       nome: new FormControl('', Validators.required),
       costo: new FormControl('', Validators.required),
       ruolo: new FormControl('', Validators.required),
+      squadraufficiale: new FormControl('', Validators.required),
     });
 
     this.giocatoreValutazioneForm = new FormGroup({
       giocatore: new FormControl(),
       punteggio: new FormControl(),
+    });
+
+    this.squadraForm = new FormGroup({
+      nomesquadra: new FormControl()
     });
   }
 
@@ -57,6 +65,7 @@ export class AmministrazioneComponent implements OnInit {
       giocatori: this.amministratoreService.getAllGiocatori(),
       utenti: this.amministratoreService.getUtenti(),
       mercato: this.amministratoreService.getMercato(),
+      squadre: this.amministratoreService.getAllSquadreUfficiali()
     }).subscribe(
       (res) => {
         this.searchedOptions = res.giocatori;
@@ -65,6 +74,8 @@ export class AmministrazioneComponent implements OnInit {
         this.giocatori = res.giocatori;
 
         this.mercatoAperto = Boolean(res.mercato);
+
+        this.squadreUfficiali = res.squadre;
       
         this.utenti = res.utenti;
         this.loaderService.setShow(false);
@@ -73,8 +84,6 @@ export class AmministrazioneComponent implements OnInit {
         this.loaderService.setShow(false);
       }
     );
-
-    this.mercatoAperto = Boolean(JSON.parse(localStorage.getItem('mercato')!));
   }
 
   onSeachDropdownValue(event: any) {
@@ -141,12 +150,17 @@ export class AmministrazioneComponent implements OnInit {
       giocatore.valutazione = Number.parseInt(
         this.giocatoreForm.controls['costo'].value
       );
+      giocatore.id_squadra_ufficiale = Number.parseInt(
+        this.giocatoreForm.controls['squadraufficiale'].value
+      );
       this.marketService.insertGiocatore(giocatore).subscribe(
         () => {
+          this.ngOnInit();
           this.loaderService.setShow(false);
           this.giocatoreForm.controls['nome'].setValue('');
           this.giocatoreForm.controls['ruolo'].setValue('');
           this.giocatoreForm.controls['costo'].setValue('');
+          this.giocatoreForm.controls['squadraufficiale'].setValue('');
         },
         (err: Error) => {
           this.errorMessages.push('ERRORE');
@@ -213,6 +227,7 @@ export class AmministrazioneComponent implements OnInit {
     this.amministratoreService.eliminaGiocatore(id).subscribe(
       () => {
         this.ngOnInit();
+        this.giocatoreDaModificare = null;
         this.loaderService.setShow(false);
       },
       (err: Error) => {
@@ -261,5 +276,24 @@ export class AmministrazioneComponent implements OnInit {
         this.loaderService.setShow(false);
       }
     )
+  }
+
+  insertSquadra() {
+    if (this.squadraForm.valid) {
+      let nome = String(this.squadraForm.controls['nomesquadra'].value != null ?
+                        this.squadraForm.controls['nomesquadra'].value : "");
+      this.loaderService.setShow(true);
+
+      this.amministratoreService.insertSquadra(nome).subscribe(
+        () => {
+          this.ngOnInit();
+          this.squadraForm.controls['nomesquadra'].setValue(null);
+          this.loaderService.setShow(false);
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        }
+      )
+    }
   }
 }

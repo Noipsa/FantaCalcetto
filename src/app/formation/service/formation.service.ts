@@ -15,10 +15,10 @@ export class FormationService {
     return this.http.get(environment.apiUrl + this.endpoint + "/all");
   }
 
-  aggiornaFormazione(formazione: any, utente: any) {
+  aggiornaFormazione(formazione: any, id_utente: number) {
     let request  = {
       rosa: formazione,
-      utente: utente
+      id_utente: id_utente
     }
     return this.http.post(environment.apiUrl + this.endpoint + "/aggiornaFormazione", request);
   }

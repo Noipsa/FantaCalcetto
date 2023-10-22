@@ -1,7 +1,8 @@
-<div class="input-group mb-3 mt-3">
+<div class="input-group mb-3 mt-3" *ngIf="formazioni">
     <select class="form-select" (change)="onChangeFormation()" [(ngModel)]="formazioneSelected">
         <option *ngFor="let formazione of formazioni" [ngValue]="formazione">
-            1-{{formazione.numero_difensori}}-{{formazione.numero_attaccanti}}</option>
+            {{formazione.numero_difensori}}-{{formazione.numero_attaccanti}}
+        </option>
     </select>
 </div>
 
@@ -51,7 +52,7 @@
     </div>
     <div class="modal-body">
         <form>
-            <div class="input-group mb-3 mt-3">
+            <div class="input-group mb-3 mt-3" *ngIf="listGiocatori">
                 <select class="form-select" [(ngModel)]="giocatoreSelected" [ngModelOptions]="{standalone: true}">
                     <option></option>
                     <option *ngFor="let giocatore of listGiocatori" [ngValue]="giocatore">{{giocatore.nome}}</option>
@@ -64,7 +65,7 @@
     </div>
 </ng-template>
 
-<table class="table">
+<table class="table" >
     <thead>
         <tr>
             <th scope="col">Giocatore</th>

@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit{
       this.loginService.login(utente)
       .subscribe(
         (res: any) => { 
-          this.memoryLoginService.setUtente(res);
+          this.memoryLoginService.setUtente(res.utente);
           this.hiddenSuccess = true;
           setTimeout( () => { this.hiddenSuccess = false }, 1500 );
           this.loaderService.setShow(false);

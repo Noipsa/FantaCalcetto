@@ -29,7 +29,7 @@ export class MatchOfDayComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.richiamaFormazioneTitolare(this.memoryLoginService.getUtente().id_utente);
+    this.richiamaFormazioneTitolare(this.memoryLoginService.getUtenteId());
   }
 
   richiamaFormazioneTitolare(id: number) {
