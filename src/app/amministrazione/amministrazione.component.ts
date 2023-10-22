@@ -38,6 +38,10 @@ export class AmministrazioneComponent implements OnInit {
   creditoForm: FormGroup;
 
   partitaForm: FormGroup;
+  partitaRisultatiForm: FormGroup;
+
+  partitaDaModificare: any;
+  partite: any;
 
   constructor(
     private marketService: MarketService,
@@ -72,6 +76,11 @@ export class AmministrazioneComponent implements OnInit {
       giornata: new FormControl(Validators.required),
       data_partita: new FormControl(Validators.required),
     });
+
+    this.partitaRisultatiForm = new FormGroup({
+      risultato_prima_squadra: new FormControl(Validators.required),
+      risultato_seconda_squadra: new FormControl(Validators.required)
+    });
   }
 
   ngOnInit(): void {
@@ -80,7 +89,8 @@ export class AmministrazioneComponent implements OnInit {
       giocatori: this.amministratoreService.getAllGiocatori(),
       utenti: this.amministratoreService.getUtenti(),
       mercato: this.amministratoreService.getMercato(),
-      squadre: this.amministratoreService.getAllSquadreUfficiali()
+      squadre: this.amministratoreService.getAllSquadreUfficiali(),
+      partite: this.amministratoreService.getPartite()
     }).subscribe(
       (res) => {
         this.searchedOptions = res.giocatori;
@@ -89,6 +99,8 @@ export class AmministrazioneComponent implements OnInit {
         this.giocatori = res.giocatori;
 
         this.mercatoAperto = Boolean(res.mercato);
+
+        this.partite = res.partite;
 
         this.squadreUfficiali = res.squadre;
       
@@ -116,6 +128,61 @@ export class AmministrazioneComponent implements OnInit {
   logOut() {
     localStorage.clear();
     this.router.navigate(['login']);
+  }
+
+  eliminaPartita(id_partita: number) {
+    this.loaderService.setShow(true);
+    this.amministratoreService.eliminaPartita(id_partita).subscribe(
+      () => {
+        this.ngOnInit();
+        this.partitaDaModificare = null;
+        this.loaderService.setShow(false);
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      }
+    )
+  }
+
+  aggiornaPartita() {
+    if (this.partitaRisultatiForm.valid) {
+      this.loaderService.setShow(true);
+      let partitaRisultati: any = {};
+      partitaRisultati.risultato_prima_squadra = Number.parseInt(
+        this.partitaRisultatiForm.controls['risultato_prima_squadra'].value
+      );
+      partitaRisultati.risultato_seconda_squadra = Number.parseInt(
+        this.partitaRisultatiForm.controls['risultato_seconda_squadra'].value
+      );
+      partitaRisultati.id_partita = this.partitaDaModificare.id_partita;
+
+      this.amministratoreService.aggiornaPartita(partitaRisultati).subscribe(
+        () => {
+          this.ngOnInit();
+          this.partitaDaModificare = null;
+          this.partitaForm.controls['risultato_prima_squadra'].setValue(
+            null
+          );
+          this.partitaForm.controls['risultato_seconda_squadra'].setValue(
+            null
+          );
+          this.loaderService.setShow(false);
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        }
+      )
+    }
+  }
+
+  openModaleEliminaPartita(content: any, id_partita: number){
+    this.modalService.open(content).result.then(
+      () => {
+        this.loaderService.setShow(true);
+        this.eliminaPartita(id_partita);
+      },
+      () => { },
+    );
   }
 
   inserisciPartita() {

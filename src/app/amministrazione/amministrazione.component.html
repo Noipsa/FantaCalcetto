@@ -7,19 +7,19 @@
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">nome</span>
-            <input type="text" class="form-control" aria-label="Username"
-                aria-describedby="basic-addon1" formControlName="nome">
+            <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                formControlName="nome">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">valutazione</span>
-            <input type="number" class="form-control" aria-label="Recipient's username"
-                aria-describedby="basic-addon2" formControlName="costo" >
+            <input type="number" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                formControlName="costo">
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">squadra</span>
-            <select class="form-control" name="ruolo" id="id" formControlName="squadraufficiale" >
+            <select class="form-control" name="ruolo" id="id" formControlName="squadraufficiale">
                 <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
                     {{squadraUfficiale.nome_squadra}}
                 </option>
@@ -78,12 +78,14 @@
         </div>
 
         <div class="dropdown mb-3">
-            <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 {{giocatoreSelected.nome ? giocatoreSelected.nome : giocatoreSelected}}
             </button>
             <ul class="dropdown-menu w-100 text-center">
                 <li (click)="onSelectDropdownValue('scegli giocatore')" class="p-1">scegli giocatore</li>
-                <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)" class="p-1">{{option.nome}}</li>
+                <li *ngFor="let option of searchedOptions" (click)="onSelectDropdownValue(option)" class="p-1">
+                    {{option.nome}}</li>
             </ul>
         </div>
 
@@ -107,7 +109,7 @@
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">Squadra Casa</span>
-            <select class="form-control" name="ruolo" id="id" formControlName="id_prima_squadra" >
+            <select class="form-control" name="ruolo" id="id" formControlName="id_prima_squadra">
                 <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
                     {{squadraUfficiale.nome_squadra}}
                 </option>
@@ -116,7 +118,7 @@
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">Squadra Transferta</span>
-            <select class="form-control" name="ruolo" id="id" formControlName="id_seconda_squadra" >
+            <select class="form-control" name="ruolo" id="id" formControlName="id_seconda_squadra">
                 <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
                     {{squadraUfficiale.nome_squadra}}
                 </option>
@@ -127,7 +129,7 @@
             <span class="input-group-text" id="basic-addon2">Giornata</span>
             <input type="number" class="form-control" formControlName="giornata">
         </div>
-        
+
 
 
         <div class="input-group mb-3">
@@ -170,8 +172,9 @@
     <div class="d-flex justify-content-center">
         <h4 class="justify-content-center m-auto p-2">Gestione Giocatori</h4>
     </div>
-    <select class="form-select mb-3 border-black focus-ring focus-ring-dark" (change)="null" [(ngModel)]="giocatoreDaModificare">
-        <option  [ngValue]="null"></option>
+    <select class="form-select mb-3 border-black focus-ring focus-ring-dark" (change)="null"
+        [(ngModel)]="giocatoreDaModificare">
+        <option [ngValue]="null"></option>
         <option *ngFor="let giocatore of giocatori" [ngValue]="giocatore">
             {{giocatore.nome}}
         </option>
@@ -179,37 +182,72 @@
     <div *ngIf="giocatoreDaModificare" class="w-100">
         <button class="btn btn-danger w-100 mb-2 "
             (click)="eliminaGiocatore(giocatoreDaModificare.id_giocatore)">Elimina</button>
-        <button class="btn w-100 mb-2" 
-                [ngClass]="giocatoreDaModificare.binfortunato ? 'btn-success' : 'btn-danger'"
+        <button class="btn w-100 mb-2" [ngClass]="giocatoreDaModificare.binfortunato ? 'btn-success' : 'btn-danger'"
             (click)="infortunioGiocatore(giocatoreDaModificare.id_giocatore)">
             {{giocatoreDaModificare.binfortunato ? 'ritorno da infortunio' : 'segnala infortunio'}}
         </button>
-        <button class="btn w-100 mb-2" 
-                [ngClass]="giocatoreDaModificare.bsqualificato ? 'btn-success' : 'btn-danger'"
+        <button class="btn w-100 mb-2" [ngClass]="giocatoreDaModificare.bsqualificato ? 'btn-success' : 'btn-danger'"
             (click)="squalificaGiocatore(giocatoreDaModificare.id_giocatore)">
             {{giocatoreDaModificare.bsqualificato ? 'riammissione' : 'segnala squalifica'}}
         </button>
     </div>
 </div>
 
+<div class="container border pb-3 mb-3" *ngIf="partite">
+    <div class="d-flex justify-content-center">
+        <h4 class="justify-content-center m-auto p-2">Gestione Partite</h4>
+    </div>
+    <select class="form-select mb-3 border-black focus-ring focus-ring-dark" (change)="null"
+        [(ngModel)]="partitaDaModificare">
+        <option [ngValue]="null"></option>
+        <option *ngFor="let partita of partite" [ngValue]="partita">
+            Giornata {{partita.numero_giornata}} - {{partita.prima_squadra?.nome_squadra}} -
+            {{partita.seconda_squadra?.nome_squadra}}
+        </option>
+    </select>
+    <div class="w-100" *ngIf="partitaDaModificare">
+        <button class="btn btn-danger w-100 mb-3 "
+            (click)="openModaleEliminaPartita(partitamodale, partitaDaModificare.id_partita)">Elimina</button>
+    </div>
+    <form [formGroup]="partitaRisultatiForm" (submit)="aggiornaPartita()" *ngIf="partitaDaModificare">
+        <div class="input-group mb-3" >
+            <span class="input-group-text" id="basic-addon2">Risultato Prima Squadra</span>
+            <input type="number" class="form-control" formControlName="risultato_prima_squadra">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Risultato Seconda Squadra</span>
+            <input type="number" class="form-control" formControlName="risultato_seconda_squadra">
+        </div>
+        <button class="btn btn-success w-100">Inserisci Risultati</button>
+    </form>
+</div>
+
+<ng-template #partitamodale let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">sicuro?</h4>
+    </div>
+    <div class="modal-body">
+        <button type="button" class="btn btn-success w-100 mb-3" (click)="modal.close()">Elimina</button>
+        <button type="button" class="btn btn-danger w-100" (click)="modal.dismiss()">Non eliminare</button>
+    </div>
+</ng-template>
+
 <div class="container border p-3 mb-3">
-    <button class="btn w-100"
-            [ngClass]="mercatoAperto ? 'btn-danger' : 'btn-success'" 
-            (click)="apriChiudiMercato()">
-        {{mercatoAperto  ? 'Chiudi Mercato' : 'Apri Mercato'}}
+    <button class="btn w-100" [ngClass]="mercatoAperto ? 'btn-danger' : 'btn-success'" (click)="apriChiudiMercato()">
+        {{mercatoAperto ? 'Chiudi Mercato' : 'Apri Mercato'}}
     </button>
 </div>
 
 <div class="container border p-3 mb-3">
-    <button class="btn btn-success w-100" (click)="openModalCalcolaGiornata(content)">calcola giornata</button>
+    <button class="btn btn-success w-100" (click)="openModalCalcolaGiornata(giornata)">calcola giornata</button>
 </div>
 
 <div *ngIf="errorMessagesGiornata.length > 0" class="m-1 p-1 bg-danger text-center" style="color: white;">
     <label>{{errorMessagesGiornata[0]}}</label>
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header" >
+<ng-template #giornata let-modal>
+    <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">sicuro?</h4>
     </div>
     <div class="modal-body">
@@ -217,4 +255,3 @@
         <button type="button" class="btn btn-danger w-100" (click)="modal.dismiss()">non calcolare</button>
     </div>
 </ng-template>
-

@@ -1,11 +1,21 @@
 <ul class="list-group list-group-flush mt-3" *ngIf="matchsList.length > 0;else nothing">
-    <li class="list-group-item mt-4" *ngFor="let match of matchsList">
+    <li class="list-group-item " *ngFor="let match of matchsList">
         <p class="text-center" style="margin: none !important; padding: none !important;">Giornata {{match?.numero_giornata}}</p>
-        <h1 class="text-center">{{match?.prima_squadra?.nome_squadra}} 
+        <h4 class="text-center">
+            <div class="col-3 float-start" style="width: 30%; overflow: hidden;text-overflow: ellipsis !important;">
+                <img [src]="match?.prima_squadra?.logo"
+                    width="auto" height="70px"><br>
+                {{match?.prima_squadra?.nome_squadra}} 
+            </div>
                                     {{match?.risultato_prima_squadra != -1 ? match?.risultato_prima_squadra : null}}
                                     VS
                                     {{match?.risultato_seconda_squadra != -1 ? match?.risultato_seconda_squadra : null}}
-                                    {{match?.seconda_squadra?.nome_squadra}}</h1>
+            <div class="w-25 col-3 float-end" style="overflow: hidden;text-overflow: ellipsis !important;">
+                <img [src]="match?.seconda_squadra?.logo"
+                    width="auto" height="70px">
+                {{match?.seconda_squadra?.nome_squadra}}
+            </div>
+        </h4>
         <p class="text-center">{{match?.data_partita | date: 'dd/MM/yyyy'}} - {{match?.data_partita | date: 'hh:mm aa'}}</p>
     </li>
 </ul>

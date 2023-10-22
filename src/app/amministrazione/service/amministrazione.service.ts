@@ -26,6 +26,14 @@ export class AmministrazioneService {
     return this.http.get(environment.apiUrl + this.endpoint + "utenti/all");
   }
 
+  getPartite() {
+    return this.http.get(environment.apiUrl + this.endpoint + "matchs/all");
+  }
+
+  aggiornaPartita(partitaRisultati: any) {
+    return this.http.post(environment.apiUrl + this.endpoint + "partita/aggiornaPartita", partitaRisultati);
+  }
+
   autorizzaUtente(id: number) {
     return this.http.put(environment.apiUrl + this.endpoint + "utenti/autorizza/" + id, null);
   }
@@ -48,6 +56,10 @@ export class AmministrazioneService {
 
   apriChiudiMercato() {
     return this.http.put(environment.apiUrl + this.endpoint + "configurazioni/mercato", null);
+  }
+
+  eliminaPartita(id_partita: number) {
+    return this.http.delete(environment.apiUrl + this.endpoint + "partita/elimina/" + id_partita);
   }
 
   getMercato() {
