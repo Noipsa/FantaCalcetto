@@ -61,6 +61,13 @@ export class AmministrazioneService {
     return this.http.post(environment.apiUrl + this.endpoint + "squadreufficiali/inserisci", request);
   }
 
+  insertCredito(credito: number) {
+    let request = {
+      credito: credito
+    }
+    return this.http.post(environment.apiUrl + this.endpoint + "squadre/inseriscicredito", request);
+  }
+
   getAllSquadreUfficiali() {
     return this.http.get(environment.apiUrl + this.endpoint + "squadreufficiali/all");
   }

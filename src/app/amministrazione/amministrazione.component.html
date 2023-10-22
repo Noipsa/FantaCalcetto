@@ -47,6 +47,16 @@
     </div>
 </form>
 
+<form [formGroup]="creditoForm" (submit)="insertCredito()">
+    <div class="container border p-3 mb-3">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Credito</span>
+            <input type="number" class="form-control" formControlName="credito">
+        </div>
+        <button class="btn btn-success w-100" type="submit">inserisci Credito</button>
+    </div>
+</form>
+
 <div class="container border p-3 mb-3">
     <form [formGroup]="giocatoreValutazioneForm" (submit)="inserisciValutazioneGiocatore()">
         <div class="input-group mb-3">

@@ -35,6 +35,8 @@ export class AmministrazioneComponent implements OnInit {
   squadraForm: FormGroup;
   squadreUfficiali: any;
 
+  creditoForm: FormGroup;
+
   constructor(
     private marketService: MarketService,
     private router: Router,
@@ -50,12 +52,16 @@ export class AmministrazioneComponent implements OnInit {
     });
 
     this.giocatoreValutazioneForm = new FormGroup({
-      giocatore: new FormControl(),
-      punteggio: new FormControl(),
+      giocatore: new FormControl('', Validators.required),
+      punteggio: new FormControl('', Validators.required),
     });
 
     this.squadraForm = new FormGroup({
-      nomesquadra: new FormControl()
+      nomesquadra: new FormControl('', Validators.required)
+    });
+
+    this.creditoForm = new FormGroup({
+      credito: new FormControl('', Validators.required)
     });
   }
 
@@ -288,6 +294,26 @@ export class AmministrazioneComponent implements OnInit {
         () => {
           this.ngOnInit();
           this.squadraForm.controls['nomesquadra'].setValue(null);
+          this.loaderService.setShow(false);
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        }
+      )
+    }
+  }
+
+  insertCredito() {
+    if (this.creditoForm.valid) {
+      let credito = Number.parseInt(
+        this.creditoForm.controls['credito'].value
+      );
+      this.loaderService.setShow(true);
+
+      this.amministratoreService.insertCredito(credito).subscribe(
+        () => {
+          this.ngOnInit();
+          this.squadraForm.controls['credito'].setValue(null);
           this.loaderService.setShow(false);
         },
         (err: Error) => {
