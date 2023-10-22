@@ -16,6 +16,8 @@ export class MarketComponent implements OnInit{
   nrSelect: string = ''; 
   giocatoriAll : any = [];
 
+  mercato: boolean | null = false;
+
   constructor(
     public marketService: MarketService,
     public loaderService: LoaderService,
@@ -41,6 +43,9 @@ export class MarketComponent implements OnInit{
         this.loaderService.setShow(false) 
     },
     () => { this.loaderService.setShow(false) })
+
+    let mercato: boolean = localStorage.getItem('mercato')?.toString() === "true";
+    this.mercato = mercato;
   }
 
   buy(giocatore: any) {

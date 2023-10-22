@@ -2,7 +2,7 @@
   <h1 class="text-center mt-3">Nessun Giocatore</h1>
 </ng-template>
 
-<div class="position-flex mt-1 mb-1">
+<div class="position-flex mt-1 mb-1" *ngIf="mercato;else mercatochiuso">
   <select class="form-control" name="ruolo" id="ruolo" [(ngModel)]='nrSelect' (change)="onChangeRuolo()">
     <option value="ALL" select>Tutti</option>
     <option value="POR">Portieri</option>
@@ -11,7 +11,7 @@
   </select>
 </div>
 
-<div>
+<div *ngIf="mercato">
   <table class="table mb-5" *ngIf="giocatori.length > 0;else nothing">
     <thead>
       <tr>
@@ -38,3 +38,9 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #mercatochiuso>
+  <div class="d-flex justify-content-center">
+    <h2 class="justify-content-center m-auto p-2">Mercato Chiuso</h2>
+  </div>
+</ng-template>
