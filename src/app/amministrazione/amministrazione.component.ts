@@ -37,6 +37,8 @@ export class AmministrazioneComponent implements OnInit {
 
   creditoForm: FormGroup;
 
+  partitaForm: FormGroup;
+
   constructor(
     private marketService: MarketService,
     private router: Router,
@@ -62,6 +64,13 @@ export class AmministrazioneComponent implements OnInit {
 
     this.creditoForm = new FormGroup({
       credito: new FormControl('', Validators.required)
+    });
+
+    this.partitaForm = new FormGroup({
+      id_prima_squadra: new FormControl('', Validators.required),
+      id_seconda_squadra: new FormControl('', Validators.required),
+      giornata: new FormControl('', Validators.required),
+      data_partita: new FormControl('', Validators.required),
     });
   }
 
@@ -107,6 +116,45 @@ export class AmministrazioneComponent implements OnInit {
   logOut() {
     localStorage.clear();
     this.router.navigate(['login']);
+  }
+
+  inserisciPartita() {
+    if (this.partitaForm.valid) {
+      this.loaderService.setShow(true);
+      let partita: any = {};
+      partita.id_prima_squadra = Number.parseInt(
+        this.partitaForm.controls['id_prima_squadra'].value
+      );
+      partita.id_seconda_squadra = Number.parseInt(
+        this.partitaForm.controls['id_seconda_squadra'].value
+      );
+      partita.giornata = Number.parseInt(
+        this.partitaForm.controls['giornata'].value
+      );
+      partita.data_partita = this.partitaForm.controls['data_partita'].value
+      this.amministratoreService
+          .insertPartita(partita)
+          .subscribe(
+            () => {
+              this.loaderService.setShow(false);
+              this.partitaForm.controls['id_prima_squadra'].setValue(
+                null
+              );
+              this.partitaForm.controls['id_seconda_squadra'].setValue(
+                null
+              );
+              this.partitaForm.controls['giornata'].setValue(
+                null
+              );
+              this.partitaForm.controls['data_partita'].setValue(
+                null
+              );
+            },
+            (err: Error) => {
+              this.loaderService.setShow(false);
+            }
+          );
+    }
   }
 
   inserisciValutazioneGiocatore() {

@@ -6,7 +6,7 @@
                                     VS
                                     {{match?.risultato_seconda_squadra != -1 ? match?.risultato_seconda_squadra : null}}
                                     {{match?.seconda_squadra?.nome_squadra}}</h1>
-        <p class="text-center">{{match?.data_partita | date: 'dd/MM/yyyy'}}</p>
+        <p class="text-center">{{match?.data_partita | date: 'dd/MM/yyyy'}} - {{match?.data_partita | date: 'hh:mm aa'}}</p>
     </li>
 </ul>
 

@@ -1,6 +1,10 @@
 <button type="button" class="btn btn-danger mb-3 w-50" (click)="logOut()">Logout</button>
 <form [formGroup]="giocatoreForm" (submit)="insertGiocatore()">
-    <div class="container border p-3 mb-3">
+
+    <div class="container border pb-3 mb-3">
+        <div class="d-flex justify-content-center">
+            <h4 class="justify-content-center m-auto p-2">Inserisci Nuovo Giocatore</h4>
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">nome</span>
             <input type="text" class="form-control" aria-label="Username"
@@ -38,7 +42,10 @@
 </form>
 
 <form [formGroup]="squadraForm" (submit)="insertSquadra()">
-    <div class="container border p-3 mb-3">
+    <div class="container border pb-3 mb-3">
+        <div class="d-flex justify-content-center">
+            <h4 class="justify-content-center m-auto p-2">Inserisci Nuova Squadra</h4>
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">nome</span>
             <input type="text" class="form-control" formControlName="nomesquadra">
@@ -48,7 +55,10 @@
 </form>
 
 <form [formGroup]="creditoForm" (submit)="insertCredito()">
-    <div class="container border p-3 mb-3">
+    <div class="container border pb-3 mb-3">
+        <div class="d-flex justify-content-center">
+            <h4 class="justify-content-center m-auto p-2">Inserisci Credito</h4>
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Credito</span>
             <input type="number" class="form-control" formControlName="credito">
@@ -57,8 +67,11 @@
     </div>
 </form>
 
-<div class="container border p-3 mb-3">
+<div class="container border pb-3 mb-3">
     <form [formGroup]="giocatoreValutazioneForm" (submit)="inserisciValutazioneGiocatore()">
+        <div class="d-flex justify-content-center">
+            <h4 class="justify-content-center m-auto p-2">Inserisci Valutazione Giornata</h4>
+        </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">cerca giocatore</span>
             <input type="text" class="form-control" (keyup)="onSeachDropdownValue($event)" />
@@ -87,9 +100,51 @@
     </form>
 </div>
 
+<div class="container border pb-3 mb-3">
+    <form [formGroup]="partitaForm" (submit)="inserisciPartita()">
+        <div class="d-flex justify-content-center">
+            <h4 class="justify-content-center m-auto p-2">Inserisci Partita Giornata</h4>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Squadra Casa</span>
+            <select class="form-control" name="ruolo" id="id" formControlName="id_prima_squadra" >
+                <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
+                    {{squadraUfficiale.nome_squadra}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Squadra Transferta</span>
+            <select class="form-control" name="ruolo" id="id" formControlName="id_seconda_squadra" >
+                <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
+                    {{squadraUfficiale.nome_squadra}}
+                </option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Giornata</span>
+            <input type="number" class="form-control" formControlName="giornata">
+        </div>
+        
 
 
-<div class="container border p-3 mb-3" *ngIf="utenti.length > 0">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Data</span>
+            <input type="datetime-local" class="form-control" formControlName="data_partita">
+        </div>
+
+        <button class="btn btn-success w-100">inserisci Partita</button>
+    </form>
+</div>
+
+
+
+<div class="container border pb-3 mb-3" *ngIf="utenti.length > 0">
+    <div class="d-flex justify-content-center">
+        <h4 class="justify-content-center m-auto p-2">Gestione Utenti</h4>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -111,7 +166,10 @@
         </tbody>
     </table>
 </div>
-<div class="container border p-3 mb-3" *ngIf="giocatori.length > 0">
+<div class="container border pb-3 mb-3" *ngIf="giocatori.length > 0">
+    <div class="d-flex justify-content-center">
+        <h4 class="justify-content-center m-auto p-2">Gestione Giocatori</h4>
+    </div>
     <select class="form-select mb-3 border-black focus-ring focus-ring-dark" (change)="null" [(ngModel)]="giocatoreDaModificare">
         <option  [ngValue]="null"></option>
         <option *ngFor="let giocatore of giocatori" [ngValue]="giocatore">

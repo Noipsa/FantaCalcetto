@@ -71,4 +71,8 @@ export class AmministrazioneService {
   getAllSquadreUfficiali() {
     return this.http.get(environment.apiUrl + this.endpoint + "squadreufficiali/all");
   }
+
+  insertPartita(partita: any) {
+    return this.http.post(environment.apiUrl + this.endpoint + "partita/insertPartita", partita);
+  }
 }
