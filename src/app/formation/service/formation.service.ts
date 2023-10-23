@@ -27,6 +27,14 @@ export class FormationService {
     return this.http.post(environment.apiUrl + this.endpoint + "/aggiornaFormazione", request);
   }
 
+  aggiornaFormazioneRiserve(formazione: any, id_utente: number) {
+    let request  = {
+      rosa: formazione,
+      id_utente: id_utente
+    }
+    return this.http.post(environment.apiUrl + this.endpoint + "/aggiornaRiserve", request);
+  }
+
   getClassifica() {
     return this.http.get(environment.apiUrl + this.endpoint + "/classifica");
   }

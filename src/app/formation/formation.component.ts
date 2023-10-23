@@ -15,10 +15,16 @@ import { formatDate } from '@angular/common';
 export class FormationComponent implements OnInit {
   formazioni: any = {};
   formazione_titolare: any = {};
+  formazione_riserve: any = {};
   formazioneSelected: any;
   userFormation: any;
 
   giocatoreSelected: any;
+  riservaSelected: any;
+
+  portieriRiserve: any;
+  difensoriRiserve: any;
+  attaccantiRiserve: any;
 
   listGiocatori: any;
 
@@ -85,17 +91,26 @@ export class FormationComponent implements OnInit {
     this.loaderService.setShow(true);
     let id_utente = this.memoryLoginService.getUtenteId();
     if (this.formazioneSelected) {
-      this.formationService
-        .aggiornaFormazione(this.formazioneSelected, id_utente)
-        .subscribe(
+      forkJoin({
+        formazione: this.formationService.aggiornaFormazione(this.formazioneSelected, id_utente),
+        riserve: this.formationService.aggiornaFormazioneRiserve(this.formazioneSelected, id_utente)
+      }).subscribe(
           (res: any) => {
             this.loaderService.setShow(false);
             if (res) {
-              this.formazione_titolare = res;
+              this.formazione_titolare = res.formazione;
               this.attaccanti = this.formazione_titolare.attaccanti;
               this.difensori = this.formazione_titolare.difensori;
               this.portieri = this.formazione_titolare.portieri;
+
+              this.formazione_riserve = res.riserve;
+
+              this.attaccantiRiserve = this.formazione_riserve.attaccanti;
+              this.difensoriRiserve = this.formazione_riserve.difensori;
+              this.portieriRiserve = this.formazione_riserve.portieri;
+
               this.richiamaFormazioneTitolare(id_utente);
+              this.richiamaFormazioneRiserve(id_utente);
             }
           },
           (err: Error) => {
@@ -128,6 +143,68 @@ export class FormationComponent implements OnInit {
         },
         () => {}
       );
+  }
+
+  openRiserva(content: any, type: number, ordine_entrata: number) {
+    console.log(ordine_entrata);
+    this.loaderService.setShow(true);
+    this.formationService
+      .getGiocatoriSquadra(this.memoryLoginService.getUtente(), type)
+      .subscribe(
+        (giocatori: any) => {
+          this.loaderService.setShow(false);
+          this.listGiocatori = giocatori;
+          this.modalService.open(content).result.then(
+            (res) => {
+              console.log(res)
+              this.loaderService.setShow(false);
+              this.salvaRiserva(this.riservaSelected, ordine_entrata)
+            },
+            () => {}
+          );
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        },
+        () => {}
+      );
+  }
+
+  salvaRiserva(giocatoreSelected: any, ordine_entrata: number) {
+    this.loaderService.setShow(true);
+    let id_utente = this.memoryLoginService.getUtenteId();
+    this.titolariService
+      .aggiornaRiserve(giocatoreSelected, id_utente, ordine_entrata)
+      .subscribe(
+        () => {
+          this.loaderService.setShow(false);
+          this.richiamaFormazioneRiserve(id_utente);
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        },
+        () => {}
+      );
+  }
+
+  richiamaFormazioneRiserve(id: number) {
+    this.loaderService.setShow(true);
+    this.titolariService.getRiserve(id).subscribe(
+      (res: any) => {
+        this.loaderService.setShow(false);
+        this.formazione_riserve = res;
+
+        this.attaccantiRiserve = this.formazione_riserve.attaccanti;
+        this.attaccantiRiserve.sort((a: any,b: any) => String(a.ordine).localeCompare(String(b.ordine)));
+        this.difensoriRiserve = this.formazione_riserve.difensori;
+        this.difensoriRiserve.sort((a: any,b: any) => String(a.ordine).localeCompare(String(b.ordine)));
+        this.portieriRiserve = this.formazione_riserve.portieri;
+      },
+      (err: Error) => {
+        this.loaderService.setShow(false);
+      },
+      () => {}
+    );
   }
 
   getTitolo(type: number): String {

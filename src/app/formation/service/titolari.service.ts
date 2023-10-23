@@ -19,6 +19,19 @@ export class TitolariService {
     return this.http.post(environment.apiUrl + this.endpoint + "/save", request);
   }
 
+  aggiornaRiserve(giocatore: any, id_utente: any, ordine_entrata: number) {
+    let request  = {
+      giocatore: giocatore,
+      ordine_entrata: ordine_entrata,
+      id_utente: id_utente
+    }
+    return this.http.post(environment.apiUrl + this.endpoint + "/saveRiserve", request);
+  }
+
+  getRiserve(id: number) {
+    return this.http.get(environment.apiUrl + this.endpoint + "/getRiserve/" + id);
+  }
+
   getTitolari(id: number) {
     return this.http.get(environment.apiUrl + this.endpoint + "/get/" + id);
   }

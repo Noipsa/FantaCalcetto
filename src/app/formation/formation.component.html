@@ -65,24 +65,65 @@
     </div>
 </ng-template>
 
-<table class="table" >
-    <thead>
-        <tr>
-            <th scope="col">Giocatore</th>
-            <th scope="col">Ruolo</th>
-            <th scope="col">Infortunato</th>
-            <th scope="col">Espulso</th>
-        </tr>
-    </thead>
-    <tbody *ngIf="giocatoriPosseduti">
-        <tr *ngFor="let giocatore of giocatoriPosseduti" class="align-middle">
-            <td>{{giocatore?.nome}}</td>
-            <td>{{giocatore?.eruolo}}</td>
-            <td>{{giocatore?.binfortunato ? 'SI' : 'NO'}}</td>
-            <td>{{giocatore?.bsqualificato  ? 'SI' : 'NO'}}</td>
-        </tr>
-    </tbody>
-</table>
+<!-- riserve -->
+
+<ul class="list-group border p-3" *ngIf="formazioneSelected">
+    <h4 class="text-center">Riserve</h4>
+    <div *ngFor="let portiere of portieriRiserve;let i = index">
+        <li class="list-group-item" *ngIf="portiere.id_giocatore; else scegliportiere">
+            <h5>
+                <h5 class="text-warning">Portiere</h5> {{portiere.nome}}
+            </h5>
+        </li>
+        <ng-template class="list-group-item" #scegliportiere>
+            <button type="button" class="btn btn-warning mb-3 w-100" (click)="openRiserva(riserva, 1, i + 1)">Scegli Riserva Portiere</button>
+        </ng-template>
+    </div>
+    <br>
+
+    <div *ngFor="let difensore of difensoriRiserve;let i = index">
+        <li class="list-group-item mb-3 align-middle" *ngIf="difensore.giocatore && difensore.ordine == (i + 1); else sceglidifensore">
+            <h5>
+                <h5 class="text-success">Difensore</h5> {{difensore.giocatore.nome}}
+            </h5>
+        </li>
+        <ng-template class="list-group-item" #sceglidifensore>
+            <button type="button" class="btn btn-success mb-3 w-100" (click)="openRiserva(riserva, 2, i + 1)">Scegli Riserva Difensore</button>
+        </ng-template>
+    </div>
+    <br>
+
+    <div *ngFor="let attaccante of attaccantiRiserve;let i = index">
+        <li class="list-group-item mb-3" *ngIf="attaccante.giocatore && attaccante.ordine == (i + 1); else scegliattaccante">
+            <h5>
+                <h5 class="text-danger">Attaccante</h5> {{attaccante.giocatore.nome}}
+            </h5>
+        </li>
+        <ng-template class="list-group-item" #scegliattaccante>
+            <button type="button" class="btn btn-danger mb-3 w-100" (click)="openRiserva(riserva, 3, i + 1)">Scegli Riserva Attaccante</button>
+        </ng-template>
+    </div>
+</ul>
+
+<ng-template #riserva let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Scegli Riserva</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="input-group mb-3 mt-3" *ngIf="listGiocatori">
+                <select class="form-select" [(ngModel)]="riservaSelected" [ngModelOptions]="{standalone: true}">
+                    <option></option>
+                    <option *ngFor="let giocatore of listGiocatori" [ngValue]="giocatore">{{giocatore.nome}}</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark w-100" (click)="modal.close()">Save</button>
+    </div>
+</ng-template>
 
 <div class="fixed-bottom m-3 text-center" style="margin-bottom: 12vh !important;" *ngIf="!isLimitToInsertFormation()">
     <button type="button" 
