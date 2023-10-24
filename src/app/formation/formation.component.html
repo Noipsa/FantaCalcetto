@@ -76,7 +76,7 @@
             </h5>
         </li>
         <ng-template class="list-group-item" #scegliportiere>
-            <button type="button" class="btn btn-warning mb-3 w-100" (click)="openRiserva(riserva, 1, i + 1)">Scegli Riserva Portiere</button>
+            <button type="button" class="btn btn-dark mb-3 w-100" (click)="openRiserva(riserva, 1, i + 1)">Scegli Riserva Portiere</button>
         </ng-template>
     </div>
     <br>
@@ -88,7 +88,7 @@
             </h5>
         </li>
         <ng-template class="list-group-item" #sceglidifensore>
-            <button type="button" class="btn btn-success mb-3 w-100" (click)="openRiserva(riserva, 2, i + 1)">Scegli Riserva Difensore</button>
+            <button type="button" class="btn btn-dark mb-3 w-100" (click)="openRiserva(riserva, 2, i + 1)">Scegli Riserva Difensore</button>
         </ng-template>
     </div>
     <br>
@@ -100,7 +100,7 @@
             </h5>
         </li>
         <ng-template class="list-group-item" #scegliattaccante>
-            <button type="button" class="btn btn-danger mb-3 w-100" (click)="openRiserva(riserva, 3, i + 1)">Scegli Riserva Attaccante</button>
+            <button type="button" class="btn btn-dark mb-3 w-100" (click)="openRiserva(riserva, 3, i + 1)">Scegli Riserva Attaccante</button>
         </ng-template>
     </div>
 </ul>
@@ -127,6 +127,6 @@
 
 <div class="fixed-bottom m-3 text-center" style="margin-bottom: 12vh !important;" *ngIf="!isLimitToInsertFormation()">
     <button type="button" 
-            class="btn w-75"
+            class="btn btn-danger w-75"
             (click)="inserisciFormazione()">Inserisci Formazione</button>
 </div>
