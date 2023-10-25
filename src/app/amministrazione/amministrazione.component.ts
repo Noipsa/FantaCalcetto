@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AmministrazioneService } from './service/amministrazione.service';
 import { LoaderService } from '../home/loader/loader.service';
@@ -7,6 +7,9 @@ import { MarketService } from '../market/service/market.service';
 import { GiocatoreInsert } from '../market/model/giocatoreInsert';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'amministrazione',
@@ -29,6 +32,10 @@ export class AmministrazioneComponent implements OnInit {
   errorMessages: string[] = [];
   errorMessagesGiornata: string[] = [];
   errorMessagesValutazione: string[] = [];
+
+  giocatoriMassivo: any = {};
+  caricamentoVotazioniMassivo: any;
+  formVotazioniMassivo: any;
 
   giocatoreValutazioneForm: FormGroup;
 
@@ -94,7 +101,19 @@ export class AmministrazioneComponent implements OnInit {
     }).subscribe(
       (res) => {
         this.searchedOptions = res.giocatori;
+
+        this.caricamentoVotazioniMassivo = res.giocatori;
         this.options = res.giocatori;
+
+        let group: any = {};
+        this.caricamentoVotazioniMassivo.forEach((g: any) => {
+          group[g.id_giocatore] = new FormControl('', Validators.required);
+        });
+        this.formVotazioniMassivo = new FormGroup(group);
+
+        this.dataSource = new MatTableDataSource(this.caricamentoVotazioniMassivo);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
 
         this.giocatori = res.giocatori;
 
@@ -123,6 +142,17 @@ export class AmministrazioneComponent implements OnInit {
   onSelectDropdownValue(option: any) {
     this.giocatoreSelected = option;
     this.giocatoreValutazioneForm.controls['giocatore'].setValue(option);
+  }
+
+  onInsertValue(event: any, id: any){
+    this.loaderService.setShow(true);
+    const value = event.target.value.trim().toUpperCase();
+    let giocatore = this.giocatoriMassivo[id];
+    if (giocatore !== null && giocatore !== value) {
+      this.giocatoriMassivo[id] = value;
+      this.loaderService.setShow(false);
+    }
+    this.loaderService.setShow(false);
   }
 
   logOut() {
@@ -435,6 +465,38 @@ export class AmministrazioneComponent implements OnInit {
           this.loaderService.setShow(false);
         }
       )
+    }
+  }
+
+  caricaMassiva() {
+    this.loaderService.setShow(true);  
+    var keys = Object.keys(this.giocatoriMassivo)
+    let completati = this.caricamentoVotazioniMassivo.length === keys.length;
+    if(completati) {
+      this.amministratoreService.insertMassiva(this.giocatoriMassivo).subscribe(
+        () => {
+          this.ngOnInit();
+          this.loaderService.setShow(false);
+        },
+        (err: Error) => { this.loaderService.setShow(false); }
+      )
+    } else {
+      this.loaderService.setShow(false);  
+    }
+  }
+
+  displayedColumns: string[] = ['giocatore'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 }

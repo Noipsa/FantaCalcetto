@@ -15,6 +15,13 @@ import { MatchOfDayComponent } from './match-of-day/match-of-day.component';
 import { ClassifiedComponent } from './classified/classified.component';
 import { AmministrazioneComponent } from './amministrazione/amministrazione.component';
 import { UserComponent } from './user/user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -33,11 +40,17 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
     NgbModule,
+    MatTableModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [
     LoginComponent,

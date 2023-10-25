@@ -22,6 +22,10 @@ export class AmministrazioneService {
     return this.http.post(environment.apiUrl + this.endpoint + "giocatore/inserisciValutazioneGiocatore", giocatore);
   }
 
+  insertMassiva(giocatori: any) {
+    return this.http.post(environment.apiUrl + this.endpoint + "giocatore/insertMassivo", giocatori);
+  }
+
   getUtenti() {
     return this.http.get(environment.apiUrl + this.endpoint + "utenti/all");
   }
