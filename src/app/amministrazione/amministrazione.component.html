@@ -20,6 +20,8 @@
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">squadra</span>
             <select class="form-control" name="ruolo" id="id" formControlName="squadraufficiale">
+                <option>
+                </option>
                 <option *ngFor="let squadraUfficiale of squadreUfficiali" [ngValue]="squadraUfficiale.id">
                     {{squadraUfficiale.nome_squadra}}
                 </option>
@@ -193,6 +195,27 @@
     </div>
 </div>
 
+<div class="container border pb-3 mb-3" *ngIf="giocatori.length > 0">
+    <div class="d-flex justify-content-center">
+        <h4 class="justify-content-center m-auto p-2">Controllo Valutazione Giornata</h4>
+    </div>
+    <select class="form-select mb-3 border-black focus-ring focus-ring-dark" (change)="getValutazioni()"
+        [(ngModel)]="giocatoreDaControllare">
+        <option [ngValue]="null"></option>
+        <option *ngFor="let giocatore of giocatori" [ngValue]="giocatore">
+            {{giocatore.nome}}
+        </option>
+    </select>
+
+    <div *ngIf="valutazioni" class="w-100">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let valutazione of valutazioni">
+                Giornata {{valutazione.id_giornata}} - Valutazione: {{valutazione.valutazione}}
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div class="container border pb-3 mb-3" *ngIf="partite">
     <div class="d-flex justify-content-center">
         <h4 class="justify-content-center m-auto p-2">Gestione Partite</h4>
@@ -283,10 +306,13 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     
+            
             <tr class="mat-row " *matNoDataRow>
                 <td class="mat-cell text-center mt-3 pb-3"> Nessun Giocatore Trovato </td>
             </tr>
         </table>
+        <p class="text-center p-1">*i giocatori senza voto va messo -1</p>
         <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+        
     </div>
     <button class="btn btn-success mt-3 mb-3 w-100" (click)="caricaMassiva()">inserisci punteggio giocatore giornata</button>

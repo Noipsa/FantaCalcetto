@@ -30,6 +30,10 @@ export class AmministrazioneService {
     return this.http.get(environment.apiUrl + this.endpoint + "utenti/all");
   }
 
+  controllaValutazioni(id: number) {
+    return this.http.get(environment.apiUrl + this.endpoint + "giocatori/valutazione/" + id);
+  }
+
   getPartite() {
     return this.http.get(environment.apiUrl + this.endpoint + "matchs/all");
   }

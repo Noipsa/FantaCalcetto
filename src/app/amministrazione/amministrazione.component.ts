@@ -27,7 +27,10 @@ export class AmministrazioneComponent implements OnInit {
 
   mercatoAperto: boolean = false;
 
+  valutazioni: any;
+
   giocatoreDaModificare: any;
+  giocatoreDaControllare: any;
 
   errorMessages: string[] = [];
   errorMessagesGiornata: string[] = [];
@@ -153,6 +156,24 @@ export class AmministrazioneComponent implements OnInit {
       this.loaderService.setShow(false);
     }
     this.loaderService.setShow(false);
+  }
+  
+  getValutazioni() {
+    this.loaderService.setShow(true);
+    if(this.giocatoreDaControllare === null) {
+      this.loaderService.setShow(false);
+      this.valutazioni = null;
+    } else {
+      this.amministratoreService.controllaValutazioni(this.giocatoreDaControllare.id_giocatore).subscribe(
+        (res) => {
+          this.valutazioni = res;
+          this.loaderService.setShow(false);
+        },
+        (err: Error) => {
+          this.loaderService.setShow(false);
+        }
+      )
+    }
   }
 
   logOut() {

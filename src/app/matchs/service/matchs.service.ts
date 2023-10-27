@@ -17,4 +17,8 @@ export class MatchsService {
   getAllGiocatoriPartita(id : number) {
     return this.http.get(environment.apiUrl + this.endpoint + "/giocatoriPartita/" + id);
   }
+
+  getAllGiocatoriMatchs(id_squadra: number, id_giornata: number) {
+    return this.http.get(environment.apiUrl + this.endpoint + "/giocatorimatchs/" + id_squadra + '/' + id_giornata );
+  }
 }
